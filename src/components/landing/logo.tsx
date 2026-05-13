@@ -28,10 +28,20 @@ export function Logo({
   );
 }
 
-export function Wordmark({ className }: { className?: string }) {
+export function Wordmark({
+  className,
+  alt = "hosteasy",
+}: {
+  className?: string;
+  alt?: string;
+}) {
   return (
-    <span className={className}>
-      <span className="text-primary">host</span>easy
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/logo.svg"
+      alt={alt}
+      className={className}
+      draggable={false}
+    />
   );
 }

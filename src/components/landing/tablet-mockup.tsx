@@ -118,7 +118,7 @@ export function TabletMockup() {
 
             <div className="relative flex-1 overflow-hidden bg-[#fafafa]">
               <div
-                className="h-[440px] overflow-y-auto overscroll-contain [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/15 [&::-webkit-scrollbar-track]:bg-transparent"
+                className="h-[560px] overflow-y-auto overscroll-contain [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/15 [&::-webkit-scrollbar-track]:bg-transparent"
               >
                 <div ref={stageRef} className="p-5" key={view}>
                   {view === "inicio" && <InicioView />}

@@ -15,7 +15,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center">
-          <Wordmark className="text-lg font-semibold tracking-tight" />
+          <Wordmark className="h-6 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex">
@@ -58,7 +58,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <Wordmark className="text-base font-semibold text-foreground" />
+            <Wordmark className="h-6 w-auto" />
             <p className="mt-3 max-w-xs text-xs leading-relaxed text-foreground/55">
               Tablets com IA para anfitriões de aluguel de temporada.
               Florianópolis, SC.

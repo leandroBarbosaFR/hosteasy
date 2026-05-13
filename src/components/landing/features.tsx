@@ -132,7 +132,7 @@ export function Features() {
                     {f.metric}
                   </span>
                   <p
-                    className="mt-auto font-display text-lg font-medium tracking-tight text-foreground"
+                    className="relative z-10 mt-auto font-display text-lg font-medium tracking-tight text-foreground"
                     style={{
                       writingMode: "vertical-rl",
                       transform: "rotate(180deg)",
@@ -160,7 +160,7 @@ export function Features() {
                       {f.metric}
                     </span>
                   </div>
-                  <h3 className="mt-auto font-display text-2xl font-medium leading-tight tracking-tight">
+                  <h3 className="relative z-10 mt-auto font-display text-2xl font-medium leading-tight tracking-tight">
                     {f.title}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-foreground/70">
