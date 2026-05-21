@@ -25,7 +25,7 @@ export function FinalCta() {
             </p>
             <h2 className="mt-3 text-balance font-display text-3xl font-medium leading-[1.1] tracking-tight md:text-4xl">
               Te mostro o painel em{" "}
-              <span className="italic text-primary">15 minutos</span> — sem
+              <span className="text-primary">15 minutos</span> — sem
               pitch.
             </h2>
             <p className="mt-4 text-pretty text-base leading-relaxed text-foreground/70">
@@ -55,7 +55,7 @@ export function FinalCta() {
             </div>
 
             <p
-              className="mt-6 font-display text-2xl italic leading-none text-foreground/40"
+              className="mt-6 font-display text-2xl leading-none text-foreground/40"
               aria-hidden
             >
               — Leandro

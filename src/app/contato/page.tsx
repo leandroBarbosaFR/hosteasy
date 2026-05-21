@@ -50,7 +50,7 @@ function Hero() {
         </span>
         <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
           Fala com a gente —{" "}
-          <span className="italic text-primary">sem pitch</span>
+          <span className="text-primary">sem pitch</span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
           Pergunta o que você quiser. Resposta de gente, na hora.

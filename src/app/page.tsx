@@ -6,6 +6,7 @@ import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
 import { TabletMockup } from "@/components/landing/tablet-mockup";
 import { HostDashboardMockup } from "@/components/landing/host-dashboard-mockup";
 import { Features } from "@/components/landing/features";
+import { LogoMarquee } from "@/components/landing/logo-marquee";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { Pricing } from "@/components/landing/pricing";
 import { Faq } from "@/components/landing/faq";
@@ -17,6 +18,7 @@ export default function Page() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
+        <LogoMarquee />
         <Features />
         <HowItWorks />
         <HostDashboardSection />
@@ -32,50 +34,10 @@ export default function Page() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-background">
-
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-6 pb-14 pt-16 md:grid-cols-12 md:items-center md:gap-8 md:pb-[60px] md:pt-24">
-        <div className="md:col-span-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-white/60 px-3 py-1 text-xs font-medium text-foreground/70 backdrop-blur">
-            <span className="size-1.5 rounded-full bg-primary" />
-            Tablet com IA · feito pra anfitriões em Floripa
-          </div>
-
-          <h1 className="mt-6 text-balance font-display text-5xl font-medium leading-[1.02] tracking-tight text-foreground md:text-[5.25rem]">
-            Mais receita por estadia.{" "}
-            <span className="italic text-primary">Menos pergunta</span> de hóspede.
-          </h1>
-
-          <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
-            Tablet de 8&rdquo; sempre ligado no imóvel, com IA que aprende
-            quais extras o seu hóspede compra. Sincroniza com Stays, Hostaway,
-            Airbnb e +40 PMSs. Sem app, sem login, sem QR code hóspede toca,
-            paga, você confirma.
-          </p>
-
-          <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-            <Link
-              href="/demo"
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "h-12 gap-2 rounded-full border-0 bg-clip-border py-1.5 pl-5 pr-2 text-sm font-semibold transition-[box-shadow] duration-200 hover:shadow-[6px_6px_0_0_#1f1916]"
-              )}
-            >
-              Agendar demonstração
-              <span className="grid size-8 place-items-center rounded-full bg-white/20">
-                <ArrowRight className="size-4" />
-              </span>
-            </Link>
-            <Link
-              href="#precos"
-              className="inline-flex h-12 items-center gap-1.5 rounded-full bg-[#1f1916] px-5 text-sm font-semibold text-white transition-[box-shadow,background-color] duration-200 hover:bg-[#1f1916]/90 hover:shadow-[6px_6px_0_0_var(--color-primary)]"
-            >
-              Ver preços
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-
-          <div className="mt-10 flex items-center gap-4">
-            <div className="flex -space-x-2">
+      <div className="relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-14 pt-16 text-center md:pb-[60px] md:pt-24">
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="inline-flex items-center gap-3 px-3 py-1.5">
+            <div className="flex -space-x-1.5">
               <Avatar
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120&q=80"
                 alt="Marina, anfitriã"
@@ -88,28 +50,54 @@ function Hero() {
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&h=120&q=80"
                 alt="Ana, anfitriã"
               />
-              <span className="grid size-9 place-items-center rounded-full border-2 border-background bg-sand text-[11px] font-semibold text-foreground/70">
-                +
-              </span>
             </div>
-            <div className="leading-tight">
-              <p className="flex items-center gap-1 text-sm font-semibold">
-                <Star className="size-4 fill-primary text-primary" />
-                4.9 · +R$ 850/mês por imóvel
-              </p>
-              <p className="text-xs text-foreground/55">
-                em média, ganho extra reportado por 200+ anfitriões
-              </p>
-            </div>
+            <span className="flex items-center gap-1 text-xs font-semibold text-foreground/80">
+              <Star className="size-3.5 fill-primary text-primary" />
+              4.9 · 200+ anfitriões
+            </span>
           </div>
         </div>
 
-        <div className="relative hidden md:col-span-6 md:block">
-          <div className="relative mx-auto w-full max-w-3xl md:-mr-6 lg:-mr-10">
-            <TabletMockup />
-            <FloatingReservationCard />
-            <FloatingMessageBubble />
-          </div>
+        <h1 className="mt-8 text-balance font-display text-5xl font-medium leading-[1.02] tracking-tight text-foreground md:text-[5.25rem]">
+          Aumente a receita por estadia.{" "}
+          <span className="text-primary">Reduza as perguntas</span> do hóspede.
+        </h1>
+
+        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
+          Transforme a experiência no imóvel com um tablet inteligente que ajuda o hóspede a comprar extras, tirar dúvidas e agir na hora. Sem app, sem login, sem QR code. O hóspede toca, paga, você confirma.
+        </p>
+
+        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+          <Link
+            href="/demo"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "group relative h-12 w-[280px] overflow-hidden rounded-full border-0 bg-clip-border text-sm font-semibold transition-[box-shadow] duration-200 [a]:hover:bg-primary hover:shadow-[6px_6px_0_0_#1f1916]"
+            )}
+          >
+            <span
+              aria-hidden
+              className="absolute left-1.5 top-1/2 grid size-9 -translate-y-1/2 place-items-center rounded-full bg-white/20 transition-transform duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-x-[232px] group-hover:rotate-[720deg]"
+            >
+              <ArrowRight className="size-4" />
+            </span>
+            <span className="absolute inset-y-0 left-12 right-5 flex items-center justify-center transition-transform duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:-translate-x-[42px]">
+              Agendar demonstração
+            </span>
+          </Link>
+          <Link
+            href="#precos"
+            className="inline-flex h-12 items-center gap-1.5 rounded-full bg-[#1f1916] px-5 text-sm font-semibold text-white transition-[box-shadow,background-color] duration-200 hover:bg-[#1f1916]/90 hover:shadow-[6px_6px_0_0_var(--color-primary)]"
+          >
+            Ver preços
+            <ArrowRight className="size-4" />
+          </Link>
+        </div>
+
+        <div className="relative mt-14 w-full max-w-3xl md:mt-20">
+          <TabletMockup />
+          <FloatingReservationCard />
+          <FloatingMessageBubble />
         </div>
       </div>
     </section>
@@ -187,8 +175,8 @@ function HostDashboardSection() {
             Para o anfitrião
           </span>
           <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
-            Tudo que vende, tudo que pergunta —{" "}
-            <span className="italic text-primary">num só painel</span>
+            Tudo que vende, tudo que pergunta{" "}
+            <span className="text-primary">num só painel</span>
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
             Veja quanto cada imóvel rende, qual extra converte mais, onde

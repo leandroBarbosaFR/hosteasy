@@ -89,7 +89,7 @@ function Section({
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-10 md:grid-cols-[1fr_2fr] md:gap-14">
           <div>
-            <p className="font-display text-sm italic text-foreground/45">
+            <p className="font-display text-sm text-foreground/45">
               {number}
             </p>
             <p className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
@@ -121,7 +121,7 @@ function Hero() {
         </span>
         <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-7xl">
           Como{" "}
-          <span className="italic text-primary">o hosteasy</span> se mostra
+          <span className="text-primary">o hosteasy</span> se mostra
           ao mundo.
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
@@ -217,7 +217,7 @@ function Typography() {
       <div className="space-y-8">
         <div className="rounded-3xl border border-border/60 bg-card p-8">
           <div className="flex items-baseline justify-between">
-            <p className="font-display text-2xl italic text-primary">
+            <p className="font-display text-2xl text-primary">
               Fraunces
             </p>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
@@ -227,7 +227,7 @@ function Typography() {
           <p className="mt-6 font-display text-6xl font-medium leading-[1.02] tracking-tight md:text-7xl">
             Mais receita por estadia.
           </p>
-          <p className="mt-3 font-display text-4xl font-medium italic text-primary">
+          <p className="mt-3 font-display text-4xl font-medium text-primary">
             Menos pergunta de hóspede.
           </p>
           <div className="mt-6 grid grid-cols-3 gap-3 text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
@@ -279,10 +279,10 @@ function Components() {
           </span>
         </Demo>
 
-        <Demo label="Headline com ênfase italica">
+        <Demo label="Headline com ênfase">
           <p className="text-balance font-display text-3xl font-medium leading-[1.05] tracking-tight">
             O tablet que cuida{" "}
-            <span className="italic text-primary">da sua estadia</span> por
+            <span className="text-primary">da sua estadia</span> por
             você.
           </p>
         </Demo>

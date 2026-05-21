@@ -167,7 +167,7 @@ function AdCanvas({
           )}
         >
           {v.headline}{" "}
-          <span className="italic text-primary">{v.accent}</span>
+          <span className="text-primary">{v.accent}</span>
         </h2>
       </div>
 

@@ -108,7 +108,7 @@ function Hero() {
         </span>
         <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
           Um tablet que faz{" "}
-          <span className="italic text-primary">o trabalho pesado</span>
+          <span className="text-primary">o trabalho pesado</span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
           Quatro frentes principais de receita e operação combinadas em um

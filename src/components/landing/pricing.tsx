@@ -30,7 +30,7 @@ export function Pricing() {
           </span>
           <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
             Um plano.{" "}
-            <span className="italic text-primary">Tablet incluído.</span> Sem
+            <span className="text-primary">Tablet incluído.</span> Sem
             pegadinha.
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">

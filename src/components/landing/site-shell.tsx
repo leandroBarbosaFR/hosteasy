@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Wordmark } from "@/components/landing/logo";
 
 const NAV_LINKS = [
   { href: "/recursos", label: "Recursos" },
@@ -12,10 +11,23 @@ const NAV_LINKS = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+    <header className="sticky top-4 z-40 w-full px-4 md:top-6">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between rounded-full bg-background/70 px-4 pl-5 shadow-[0_1px_2px_rgba(31,25,22,0.04)] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-background/50 md:h-16 md:px-6 md:pl-7">
         <Link href="/" className="flex items-center">
-          <Wordmark className="h-6 w-auto" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/hosteasyapicon.svg"
+            alt="hosteasy"
+            className="h-7 w-auto md:hidden"
+            draggable={false}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/host-app-logo.svg"
+            alt="hosteasy"
+            className="hidden h-6 w-auto md:block"
+            draggable={false}
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex">
@@ -41,7 +53,7 @@ export function SiteHeader() {
             href="/contato"
             className={cn(
               buttonVariants({ size: "lg" }),
-              "h-10 rounded-full border-0 bg-clip-border px-5 text-sm font-semibold transition-[box-shadow] duration-200 hover:shadow-[5px_5px_0_0_#1f1916]"
+              "h-9 rounded-full border-0 bg-clip-border px-4 text-sm font-semibold transition-[box-shadow] duration-200 hover:shadow-[5px_5px_0_0_#1f1916] md:h-10 md:px-5"
             )}
           >
             Agendar demo
@@ -58,7 +70,13 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <Wordmark className="h-6 w-auto" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/host-app-logo.svg"
+              alt="hosteasy"
+              className="h-6 w-auto"
+              draggable={false}
+            />
             <p className="mt-3 max-w-xs text-xs leading-relaxed text-foreground/55">
               Tablets com IA para anfitriões de aluguel de temporada.
               Florianópolis, SC.

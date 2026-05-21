@@ -74,8 +74,8 @@ function Hero() {
         </span>
         <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
           Funciona pra{" "}
-          <span className="italic text-primary">1 imóvel</span> ou{" "}
-          <span className="italic text-primary">100</span>
+          <span className="text-primary">1 imóvel</span> ou{" "}
+          <span className="text-primary">100</span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
           Anfitrião solo, gestor multipropriedade, pousada boutique ou

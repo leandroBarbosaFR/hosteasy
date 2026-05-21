@@ -42,7 +42,7 @@ export function Faq() {
           </span>
           <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
             O que anfitriões em{" "}
-            <span className="italic text-primary">Floripa</span> nos perguntam
+            <span className="text-primary">Floripa</span> nos perguntam
           </h2>
         </div>
 

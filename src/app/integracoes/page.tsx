@@ -4,9 +4,9 @@ import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
 import { FinalCta } from "@/components/landing/final-cta";
 
 const FEATURED_PMS = [
-  { name: "Airbnb", src: "/Airbnb_Logo_0.svg" },
-  { name: "Booking.com", src: "/Booking-com_Logo_0.svg" },
-  { name: "Seazone", src: "/logo-azul-com-laranja.png" },
+  { name: "Airbnb", src: "/airbnb.svg" },
+  { name: "Booking.com", src: "/booking.svg" },
+  { name: "Seazone", src: "/seazone.png" },
 ];
 
 const PMS_LIST = [
@@ -70,7 +70,7 @@ function Hero() {
         </span>
         <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
           Conectamos com{" "}
-          <span className="italic text-primary">o que você já usa</span>
+          <span className="text-primary">o que você já usa</span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
           Sincronize reservas, mensagens e dados do hóspede em tempo real
