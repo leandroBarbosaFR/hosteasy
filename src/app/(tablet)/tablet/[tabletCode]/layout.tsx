@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { TabletSidebar } from "@/components/app/tablet-sidebar";
+import { TabletKioskGate } from "@/components/app/tablet-kiosk-gate";
 import { resolveTabletContext } from "@/lib/data/tablet";
 
 export async function generateMetadata({
@@ -47,6 +48,7 @@ export default async function TabletLayout({
     <div className="tablet-shell relative min-h-svh overflow-hidden bg-gradient-to-b from-[#FAF7F4] via-[#F4ECE3] to-[#F5DDD0] pb-28">
       {children}
       <TabletSidebar tabletCode={tabletCode} />
+      <TabletKioskGate tabletCode={tabletCode} />
     </div>
   );
 }
