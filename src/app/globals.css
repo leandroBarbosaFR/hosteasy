@@ -157,5 +157,29 @@
   .legal-prose strong {
     @apply font-semibold text-foreground;
   }
+
+  /* Tablet (guest) shell — make web feel native on Fire / iPad / Android
+     when launched from a home-screen install or kiosk browser. */
+  .tablet-shell {
+    /* No text selection (guest can't accidentally highlight UI) */
+    -webkit-user-select: none;
+    user-select: none;
+    /* No tap-highlight blue flash on Android */
+    -webkit-tap-highlight-color: transparent;
+    /* No iOS callout menu on long-press */
+    -webkit-touch-callout: none;
+    /* Snappy taps, no double-tap-to-zoom */
+    touch-action: manipulation;
+    /* No rubber-band overscroll bleed into the browser */
+    overscroll-behavior: contain;
+  }
+  /* Still allow text input fields to be editable */
+  .tablet-shell input,
+  .tablet-shell textarea,
+  .tablet-shell [contenteditable="true"] {
+    -webkit-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
+  }
 }
 
