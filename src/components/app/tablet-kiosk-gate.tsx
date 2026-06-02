@@ -1,38 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Maximize2 } from "lucide-react";
 
-// Shown on tablet routes when the page is loaded in a regular browser tab
-// (i.e. not installed as a PWA). On first tap, request fullscreen via the
-// Fullscreen API so the browser chrome disappears. Auto-skips when the page
-// is already running in standalone / fullscreen display mode (installed PWA
-// or kiosk browser).
+// Returns true once mounted on the client AND we are not already running in
+// standalone/fullscreen display mode AND the gate hasn't already been
+// dismissed this session. Uses useSyncExternalStore for SSR safety and to
+// keep React 19's purity rules happy (no setState-in-effect).
+function useShouldShowGate(): boolean {
+  return useSyncExternalStore<boolean>(
+    () => () => {},
+    () => {
+      if (typeof window === "undefined") return false;
+      const standalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.matchMedia("(display-mode: fullscreen)").matches ||
+        ("standalone" in window.navigator &&
+          (window.navigator as Navigator & { standalone?: boolean }).standalone === true);
+      if (standalone) return false;
+      if (document.fullscreenElement) return false;
+      if (sessionStorage.getItem("hosteasy:tablet-gate-dismissed") === "1") return false;
+      return true;
+    },
+    () => false,
+  );
+}
+
 export function TabletKioskGate({ tabletCode }: { tabletCode: string }) {
-  const [show, setShow] = useState(false);
+  const shouldShow = useShouldShowGate();
+  const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.matchMedia("(display-mode: fullscreen)").matches ||
-      // iOS Safari quirk
-      ("standalone" in window.navigator &&
-        (window.navigator as Navigator & { standalone?: boolean }).standalone === true);
-
-    if (standalone) return;
-
-    // Already fullscreen? skip.
-    if (document.fullscreenElement) return;
-
-    // Don't pester the same session twice.
-    if (sessionStorage.getItem("hosteasy:tablet-gate-dismissed") === "1") return;
-
-    setShow(true);
-  }, []);
-
-  if (!show) return null;
+  if (!shouldShow || dismissed) return null;
 
   async function enter() {
     try {
@@ -51,7 +49,7 @@ export function TabletKioskGate({ tabletCode }: { tabletCode: string }) {
       // also Add to Home Screen for a real fullscreen install.
     }
     sessionStorage.setItem("hosteasy:tablet-gate-dismissed", "1");
-    setShow(false);
+    setDismissed(true);
   }
 
   return (

@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/app/empty-state";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { NewTabletDialog } from "./new-tablet-dialog";
-import { cn } from "@/lib/utils";
+import { TabletStatusBadge } from "./tablet-status-badge";
 
 export const metadata = { title: "Tablets · Hosteasy" };
 
@@ -69,18 +69,10 @@ export default async function HostTabletsPage() {
                       <span className="text-[11px] text-foreground/55">
                         {t.battery_percent != null ? `${t.battery_percent}%` : "—"}
                       </span>
-                      <span
-                        className={cn(
-                          "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
-                          t.status === "online"
-                            ? "bg-emerald-500/15 text-emerald-700"
-                            : t.status === "maintenance"
-                              ? "bg-amber-500/15 text-amber-700"
-                              : "bg-foreground/10 text-foreground/60",
-                        )}
-                      >
-                        {t.status}
-                      </span>
+                      <TabletStatusBadge
+                        status={t.status}
+                        lastSeenAt={t.last_seen_at}
+                      />
                       <ArrowRight className="size-4 text-foreground/30" />
                     </div>
                   </Link>

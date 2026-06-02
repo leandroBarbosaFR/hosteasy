@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { TabletSidebar } from "@/components/app/tablet-sidebar";
 import { TabletHeader } from "@/components/app/tablet-header";
 import { TabletKioskGate } from "@/components/app/tablet-kiosk-gate";
+import { TabletHeartbeat } from "@/components/app/tablet-heartbeat";
 import { resolveTabletContext } from "@/lib/data/tablet";
 
 export async function generateMetadata({
@@ -54,6 +55,7 @@ export default async function TabletLayout({
       {children}
       <TabletSidebar tabletCode={tabletCode} />
       <TabletKioskGate tabletCode={tabletCode} />
+      <TabletHeartbeat tabletCode={tabletCode} />
     </div>
   );
 }

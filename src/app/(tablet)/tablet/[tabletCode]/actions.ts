@@ -4,6 +4,47 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
+const heartbeatSchema = z.object({
+  battery_percent: z.number().int().min(0).max(100).nullable().optional(),
+  wifi_status: z.string().max(40).nullable().optional(),
+  online: z.boolean().optional(),
+});
+
+// Called by the tablet PWA every ~60 seconds. Updates last_seen_at and any
+// device telemetry the browser exposed. Never overrides a manually-set
+// 'maintenance' status — that's the host's intent.
+export async function recordTabletHeartbeat(
+  tabletCode: string,
+  payload: z.infer<typeof heartbeatSchema>,
+): Promise<{ ok: boolean }> {
+  const parsed = heartbeatSchema.safeParse(payload);
+  if (!parsed.success) return { ok: false };
+
+  const admin = createSupabaseAdminClient();
+  const { data: tablet } = await admin
+    .from("tablets")
+    .select("id, status")
+    .eq("tablet_code", tabletCode)
+    .maybeSingle();
+  if (!tablet) return { ok: false };
+
+  const patch: Record<string, unknown> = {
+    last_seen_at: new Date().toISOString(),
+  };
+  if (parsed.data.battery_percent != null) {
+    patch.battery_percent = parsed.data.battery_percent;
+  }
+  if (parsed.data.wifi_status != null) {
+    patch.wifi_status = parsed.data.wifi_status;
+  }
+  if (tablet.status !== "maintenance") {
+    patch.status = parsed.data.online === false ? "offline" : "online";
+  }
+
+  await admin.from("tablets").update(patch).eq("id", tablet.id);
+  return { ok: true };
+}
+
 async function resolveTablet(tabletCode: string) {
   const admin = createSupabaseAdminClient();
   const { data } = await admin

@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { QRCodeSVG } from "qrcode.react";
 import { Copy, Check, RefreshCw, Trash2, Wifi, WifiOff } from "lucide-react";
 import type { Property, Tablet } from "@/types/db";
+import { effectiveTabletStatus, formatRelative } from "@/lib/format";
+import { useNow } from "@/lib/use-now";
+import { cn } from "@/lib/utils";
 import {
   Field,
   FormMessage,
@@ -29,6 +32,12 @@ export function TabletDetailClient({
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const now = useNow();
+
+  const effectiveStatus = now
+    ? effectiveTabletStatus(tablet, now)
+    : tablet.status;
+  const lastSeen = now ? formatRelative(tablet.last_seen_at, now) : "—";
 
   async function copy() {
     try {
@@ -95,7 +104,23 @@ export function TabletDetailClient({
           Status
         </h2>
         <dl className="mt-3 space-y-2 text-sm">
-          <Row label="Status" value={tablet.status} />
+          <Row
+            label="Status"
+            value={
+              <span
+                className={cn(
+                  "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+                  effectiveStatus === "online"
+                    ? "bg-emerald-500/15 text-emerald-700"
+                    : effectiveStatus === "maintenance"
+                      ? "bg-amber-500/15 text-amber-700"
+                      : "bg-foreground/10 text-foreground/60",
+                )}
+              >
+                {effectiveStatus}
+              </span>
+            }
+          />
           <Row label="Bateria" value={tablet.battery_percent != null ? `${tablet.battery_percent}%` : "—"} />
           <Row
             label="Wi-Fi"
@@ -110,14 +135,7 @@ export function TabletDetailClient({
               </span>
             }
           />
-          <Row
-            label="Última atividade"
-            value={
-              tablet.last_seen_at
-                ? new Date(tablet.last_seen_at).toLocaleString("pt-BR")
-                : "—"
-            }
-          />
+          <Row label="Última atividade" value={lastSeen} />
         </dl>
       </section>
 
