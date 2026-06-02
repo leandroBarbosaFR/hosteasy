@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { TabletSidebar } from "@/components/app/tablet-sidebar";
+import { TabletHeader } from "@/components/app/tablet-header";
 import { TabletKioskGate } from "@/components/app/tablet-kiosk-gate";
 import { resolveTabletContext } from "@/lib/data/tablet";
 
@@ -42,10 +43,14 @@ export default async function TabletLayout({
 }) {
   const { tabletCode } = await params;
   // Resolve early so an invalid code 404s before any child renders.
-  await resolveTabletContext(tabletCode);
+  const ctx = await resolveTabletContext(tabletCode);
 
   return (
-    <div className="tablet-shell relative min-h-svh overflow-hidden bg-gradient-to-b from-[#FAF7F4] via-[#F4ECE3] to-[#F5DDD0] pb-28">
+    <div className="tablet-shell relative min-h-svh overflow-hidden bg-gradient-to-b from-[#FAF7F4] via-[#F4ECE3] to-[#F5DDD0] pb-28 md:pb-12 md:pl-28 lg:pl-56">
+      <TabletHeader
+        tabletCode={tabletCode}
+        propertyName={ctx.property?.name ?? null}
+      />
       {children}
       <TabletSidebar tabletCode={tabletCode} />
       <TabletKioskGate tabletCode={tabletCode} />

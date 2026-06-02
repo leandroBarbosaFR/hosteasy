@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Gloock } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +12,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const gloock = Gloock({
+// Display headlines reuse Geist for a clean, modern look.
+// (Was Gloock — kept the --font-display variable so existing
+//  font-display class usages keep working unchanged.)
+const geistDisplay = Geist({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -32,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} ${gloock.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${geistDisplay.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}

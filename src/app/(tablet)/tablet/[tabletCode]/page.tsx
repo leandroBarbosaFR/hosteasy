@@ -33,26 +33,21 @@ export default async function TabletHomePage({
 
   return (
     <main className="mx-auto max-w-4xl px-5 pt-10">
-      <header className="flex items-end justify-between">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
-            Olá, bem-vindo
+      <header>
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
+          Olá, bem-vindo
+        </p>
+        <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
+          {ctx.reservation
+            ? ctx.reservation.guest_name.split(" ")[0]
+            : ctx.property?.name ?? ctx.host.name}
+        </h1>
+        {ctx.property ? (
+          <p className="mt-1 text-sm text-foreground/65">
+            {ctx.property.name}
+            {ctx.property.unit_code ? ` · ${ctx.property.unit_code}` : ""}
           </p>
-          <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
-            {ctx.reservation
-              ? ctx.reservation.guest_name.split(" ")[0]
-              : ctx.property?.name ?? ctx.host.name}
-          </h1>
-          {ctx.property ? (
-            <p className="mt-1 text-sm text-foreground/65">
-              {ctx.property.name}
-              {ctx.property.unit_code ? ` · ${ctx.property.unit_code}` : ""}
-            </p>
-          ) : null}
-        </div>
-        <span className="rounded-full bg-white/70 px-3 py-1.5 text-[11px] font-medium text-foreground/65 backdrop-blur">
-          {tabletCode}
-        </span>
+        ) : null}
       </header>
 
       {ctx.reservation ? (
