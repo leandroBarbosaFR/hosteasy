@@ -2,6 +2,8 @@ import Link from "next/link";
 import { CalendarDays, ChevronRight, Sparkles, BookOpen, Globe2, MessageCircle } from "lucide-react";
 import { resolveTabletContext } from "@/lib/data/tablet";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { LateCheckoutCard } from "@/components/app/late-checkout-card";
+import { ReviewPromptCard } from "@/components/app/review-prompt-card";
 
 export default async function TabletHomePage({
   params,
@@ -74,6 +76,27 @@ export default async function TabletHomePage({
           Sem estadia ativa neste tablet agora.
         </section>
       )}
+
+      {showLateCheckoutCard(ctx) ? (
+        <section className="mt-4">
+          <LateCheckoutCard
+            tabletCode={tabletCode}
+            price={Number(ctx.property!.late_checkout_price ?? 0)}
+            until={ctx.property!.late_checkout_until ?? "16:00"}
+          />
+        </section>
+      ) : null}
+
+      {showReviewPrompt(ctx) ? (
+        <section className="mt-4">
+          <ReviewPromptCard
+            tabletCode={tabletCode}
+            airbnbUrl={ctx.property?.review_link_airbnb ?? null}
+            bookingUrl={ctx.property?.review_link_booking ?? null}
+            googleUrl={ctx.property?.review_link_google ?? null}
+          />
+        </section>
+      ) : null}
 
       <section className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
         <Tile href={`/tablet/${tabletCode}/extras`}  icon={<Sparkles className="size-5" />}     label="Extras" />
@@ -148,4 +171,39 @@ function Tile({
       ) : null}
     </Link>
   );
+}
+
+import type { TabletContext } from "@/lib/data/tablet";
+
+// Show the late-checkout offer card if:
+//  - the property allows it and has a price set
+//  - there's an active reservation
+//  - check-out is today or tomorrow
+function showLateCheckoutCard(ctx: TabletContext): boolean {
+  if (!ctx.reservation || !ctx.property) return false;
+  if (!ctx.property.late_checkout_enabled) return false;
+  const price = Number(ctx.property.late_checkout_price ?? 0);
+  if (!(price > 0)) return false;
+  const checkout = new Date(ctx.reservation.check_out + "T00:00:00");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const oneDayMs = 86_400_000;
+  const diff = checkout.getTime() - today.getTime();
+  return diff <= oneDayMs && diff >= 0;
+}
+
+// Show the review prompt on check-out day, only if at least one review link
+// is configured (no point asking otherwise).
+function showReviewPrompt(ctx: TabletContext): boolean {
+  if (!ctx.reservation || !ctx.property) return false;
+  const hasAnyLink = !!(
+    ctx.property.review_link_airbnb ||
+    ctx.property.review_link_booking ||
+    ctx.property.review_link_google
+  );
+  if (!hasAnyLink) return false;
+  const checkout = new Date(ctx.reservation.check_out + "T00:00:00");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return checkout.getTime() === today.getTime();
 }

@@ -4,14 +4,17 @@ import { Topbar } from "@/components/app/topbar";
 import { StatCard } from "@/components/app/stat-card";
 import { ReservationList } from "@/components/app/reservation-list";
 import { EmptyState } from "@/components/app/empty-state";
+import { ROIPanel } from "@/components/app/roi-panel";
 import { getHostDashboardData } from "@/lib/data/host";
+import { getRoiSnapshot } from "@/lib/data/roi";
 import { formatBRL } from "@/lib/format";
 
 export const metadata = { title: "Visão geral · Hosteasy" };
 
 export default async function DashboardPage() {
-  const { monthRevenue, occupancy, activeReservations, upcoming, profile, revenueSeries } =
+  const { monthRevenue, occupancy, activeReservations, upcoming, profile, revenueSeries, hostId } =
     await getHostDashboardData();
+  const roi = await getRoiSnapshot(hostId);
 
   const total30d = revenueSeries.reduce(
     (a, r) => a + Number(r.amount ?? 0),
@@ -42,6 +45,10 @@ export default async function DashboardPage() {
           </Link>
         }
       />
+
+      <section className="px-6 pt-6 md:px-10">
+        <ROIPanel snapshot={roi} />
+      </section>
 
       <section className="grid gap-3 px-6 pt-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4">
         <StatCard label="Receita do mês" value={formatBRL(monthRevenue)} trend="up" delta="+12%" />

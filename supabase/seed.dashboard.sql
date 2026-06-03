@@ -40,9 +40,18 @@ on conflict (id) do nothing;
 
 -- Host ----------------------------------------------------------------------
 
-insert into hosts (id, name, plan, status, owner_id)
-values (host_uuid, 'Leandro · Floripa', 'pro', 'active', uid)
-on conflict (id) do update set owner_id = excluded.owner_id;
+insert into hosts (id, name, plan, status, owner_id, beta_test, pix_key, pix_instructions)
+values (
+  host_uuid, 'Leandro · Floripa', 'pro', 'active', uid,
+  true,
+  'leandro@hosteasy.com.br',
+  'Após aprovação do anfitrião, faça o PIX para a chave acima e nos avise pelo tablet.'
+)
+on conflict (id) do update set
+  owner_id = excluded.owner_id,
+  beta_test = excluded.beta_test,
+  pix_key = excluded.pix_key,
+  pix_instructions = excluded.pix_instructions;
 
 -- Promote profile + link to host -------------------------------------------
 
@@ -58,12 +67,26 @@ insert into host_members (host_id, user_id, role)
 
 -- Properties ----------------------------------------------------------------
 
-insert into properties (id, host_id, name, unit_code, address, city, state, country, occupancy_rate, status)
+insert into properties (
+  id, host_id, name, unit_code, address, city, state, country, occupancy_rate, status,
+  late_checkout_enabled, late_checkout_price, late_checkout_until,
+  review_link_airbnb, review_link_booking, review_link_google, beta_test
+)
 values
-  ('22222222-2222-2222-2222-222222220102', host_uuid, 'Vilas do Luiz · 102', '102', 'Rua dos Pescadores, 102', 'Florianópolis', 'SC', 'BR', 87.0, 'active'),
-  ('22222222-2222-2222-2222-222222220304', host_uuid, 'Vilas do Luiz · 304', '304', 'Rua dos Pescadores, 304', 'Florianópolis', 'SC', 'BR', 82.0, 'active'),
-  ('22222222-2222-2222-2222-22222222a012', host_uuid, 'Costa Azul · A12',    'A12', 'Av. das Rendeiras, A12',     'Florianópolis', 'SC', 'BR', 91.0, 'active')
-on conflict (id) do nothing;
+  ('22222222-2222-2222-2222-222222220102', host_uuid, 'Vilas do Luiz · 102', '102', 'Rua dos Pescadores, 102', 'Florianópolis', 'SC', 'BR', 87.0, 'active',
+   true, 89, '16:00',
+   'https://www.airbnb.com.br/rooms/00000', null, 'https://g.page/r/example/review', true),
+  ('22222222-2222-2222-2222-222222220304', host_uuid, 'Vilas do Luiz · 304', '304', 'Rua dos Pescadores, 304', 'Florianópolis', 'SC', 'BR', 82.0, 'active',
+   true, 89, '16:00',
+   'https://www.airbnb.com.br/rooms/00001', null, null, true),
+  ('22222222-2222-2222-2222-22222222a012', host_uuid, 'Costa Azul · A12',    'A12', 'Av. das Rendeiras, A12',     'Florianópolis', 'SC', 'BR', 91.0, 'active',
+   true, 119, '15:00',
+   null, 'https://www.booking.com/hotel/example/review', null, true)
+on conflict (id) do update set
+  late_checkout_enabled = excluded.late_checkout_enabled,
+  late_checkout_price = excluded.late_checkout_price,
+  late_checkout_until = excluded.late_checkout_until,
+  beta_test = excluded.beta_test;
 
 -- Tablets -------------------------------------------------------------------
 
@@ -95,13 +118,17 @@ on conflict do nothing;
 
 -- Extras --------------------------------------------------------------------
 
-insert into extras (id, host_id, property_id, title, description, price, icon, active)
+insert into extras (id, host_id, property_id, title, description, price, icon, category, active)
 values
-  ('55555555-5555-5555-5555-555555550001', host_uuid, null, 'Café da manhã',       'Tabuleiro com pães, frutas e suco entregue na porta às 9h.',    35,  'coffee',    true),
-  ('55555555-5555-5555-5555-555555550002', host_uuid, null, 'Late check-out',      'Estendemos a saída até as 16h, sujeito à disponibilidade.',     90,  'clock',     true),
-  ('55555555-5555-5555-5555-555555550003', host_uuid, null, 'Transfer aeroporto',  'Carro privativo direto ao Hercílio Luz, até 4 pessoas.',        120, 'car',       true),
-  ('55555555-5555-5555-5555-555555550004', host_uuid, null, 'Compras prontas',     'Lista de mercado feita pelo nosso time para chegar e usar.',    60,  'basket',    true)
-on conflict (id) do nothing;
+  ('55555555-5555-5555-5555-555555550001', host_uuid, null, 'Café da manhã',       'Tabuleiro com pães, frutas e suco entregue na porta às 9h.',    35,  'coffee',    'breakfast',     true),
+  ('55555555-5555-5555-5555-555555550002', host_uuid, null, 'Late check-out',      'Estendemos a saída até as 16h, sujeito à disponibilidade.',     89,  'clock',     'late_checkout', true),
+  ('55555555-5555-5555-5555-555555550003', host_uuid, null, 'Transfer aeroporto',  'Carro privativo direto ao Hercílio Luz, até 4 pessoas.',        120, 'car',       'transfer',      true),
+  ('55555555-5555-5555-5555-555555550004', host_uuid, null, 'Compras prontas',     'Lista de mercado feita pelo nosso time para chegar e usar.',    60,  'basket',    'groceries',     true)
+on conflict (id) do update set
+  category = excluded.category,
+  price = excluded.price,
+  description = excluded.description,
+  active = true;
 
 -- Guide categories + items per property ------------------------------------
 

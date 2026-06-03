@@ -9,6 +9,7 @@ import {
   LineChart,
   Building2,
   Tablet as TabletIcon,
+  Sparkles,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -22,6 +23,7 @@ const NAV = [
   { href: "/dashboard/revenue", label: "Receita", Icon: LineChart },
   { href: "/dashboard/properties", label: "Imóveis", Icon: Building2 },
   { href: "/dashboard/tablets", label: "Tablets", Icon: TabletIcon },
+  { href: "/dashboard/extras", label: "Extras", Icon: Sparkles },
   { href: "/dashboard/settings", label: "Ajustes", Icon: Settings },
 ];
 

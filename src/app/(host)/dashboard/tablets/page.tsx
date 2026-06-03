@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, ArrowRight } from "lucide-react";
 import { Topbar } from "@/components/app/topbar";
 import { EmptyState } from "@/components/app/empty-state";
+import { AutoRefresh } from "@/components/app/auto-refresh";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { NewTabletDialog } from "./new-tablet-dialog";
@@ -28,6 +29,7 @@ export default async function HostTabletsPage() {
 
   return (
     <>
+      <AutoRefresh intervalMs={15_000} />
       <Topbar
         subtitle="Tablets"
         title="Seus tablets"

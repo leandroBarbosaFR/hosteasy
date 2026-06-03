@@ -15,7 +15,7 @@ import type {
 export type TabletContext = {
   tablet: Tablet;
   property: Property | null;
-  host: Pick<Host, "id" | "name">;
+  host: Pick<Host, "id" | "name" | "pix_key" | "pix_instructions">;
   reservation:
     | (Pick<
         Reservation,
@@ -50,7 +50,11 @@ export async function resolveTabletContext(
             .eq("id", tablet.property_id)
             .maybeSingle()
         : Promise.resolve({ data: null }),
-      admin.from("hosts").select("id, name").eq("id", tablet.host_id).single(),
+      admin
+        .from("hosts")
+        .select("id, name, pix_key, pix_instructions")
+        .eq("id", tablet.host_id)
+        .single(),
       admin
         .from("reservations")
         .select(
@@ -66,7 +70,7 @@ export async function resolveTabletContext(
   return {
     tablet: tablet as Tablet,
     property: property as Property | null,
-    host: host as { id: string; name: string },
+    host: host as TabletContext["host"],
     reservation:
       (reservation as TabletContext["reservation"] | null) ?? null,
   };

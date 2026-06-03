@@ -13,11 +13,15 @@ export default async function TabletExtrasPage({
   const ctx = await resolveTabletContext(tabletCode);
   const admin = createSupabaseAdminClient();
 
+  const propertyFilter = ctx.property
+    ? `property_id.is.null,property_id.eq.${ctx.property.id}`
+    : "property_id.is.null";
   const { data: extras } = await admin
     .from("extras")
     .select("*")
     .eq("host_id", ctx.host.id)
-    .or(`property_id.is.null,property_id.eq.${ctx.property?.id ?? ""}`)
+    .or(propertyFilter)
+    .neq("category", "late_checkout") // late checkout has its own card on the home page
     .eq("active", true)
     .order("price");
 

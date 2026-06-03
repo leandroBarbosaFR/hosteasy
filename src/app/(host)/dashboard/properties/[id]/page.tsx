@@ -5,6 +5,10 @@ import { Topbar } from "@/components/app/topbar";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { AssignTabletForm } from "./assign-tablet-form";
+import { ReservationSourcesSection } from "./reservation-sources-section";
+import { LateCheckoutSettings } from "./late-checkout-settings";
+import { ReviewLinksSettings } from "./review-links-settings";
+import type { ReservationSourceRow, Property } from "@/types/db";
 
 export default async function PropertyDetailPage({
   params,
@@ -23,12 +27,21 @@ export default async function PropertyDetailPage({
     .maybeSingle();
 
   if (!property) notFound();
+  const prop = property as Property;
 
-  const { data: tablet } = await supabase
-    .from("tablets")
-    .select("*")
-    .eq("property_id", id)
-    .maybeSingle();
+  const [{ data: tablet }, { data: sources }, { count: importedCount }] = await Promise.all([
+    supabase.from("tablets").select("*").eq("property_id", id).maybeSingle(),
+    supabase
+      .from("reservation_sources")
+      .select("*")
+      .eq("property_id", id)
+      .order("created_at"),
+    supabase
+      .from("reservations")
+      .select("id", { count: "exact", head: true })
+      .eq("property_id", id)
+      .eq("imported_from_ical", true),
+  ]);
 
   return (
     <>
@@ -41,7 +54,7 @@ export default async function PropertyDetailPage({
             <ArrowLeft className="size-3" /> Imóveis
           </Link>
         }
-        title={property.name}
+        title={prop.name}
       />
 
       <div className="grid gap-4 px-6 pt-6 md:grid-cols-2 md:px-10">
@@ -50,15 +63,15 @@ export default async function PropertyDetailPage({
             Informações
           </h2>
           <dl className="mt-3 space-y-2 text-sm">
-            <Row label="Unidade" value={property.unit_code} />
-            <Row label="Cidade" value={property.city} />
-            <Row label="Estado" value={property.state} />
-            <Row label="Endereço" value={property.address} />
+            <Row label="Unidade" value={prop.unit_code} />
+            <Row label="Cidade" value={prop.city} />
+            <Row label="Estado" value={prop.state} />
+            <Row label="Endereço" value={prop.address} />
             <Row
               label="Ocupação"
               value={
-                property.occupancy_rate != null
-                  ? `${Number(property.occupancy_rate).toFixed(0)}%`
+                prop.occupancy_rate != null
+                  ? `${Number(prop.occupancy_rate).toFixed(0)}%`
                   : "—"
               }
             />
@@ -91,9 +104,20 @@ export default async function PropertyDetailPage({
               </Link>
             </div>
           ) : (
-            <AssignTabletForm propertyId={property.id} />
+            <AssignTabletForm propertyId={prop.id} />
           )}
         </div>
+
+        <div className="md:col-span-2">
+          <ReservationSourcesSection
+            propertyId={prop.id}
+            sources={(sources ?? []) as ReservationSourceRow[]}
+            importedCount={importedCount ?? 0}
+          />
+        </div>
+
+        <LateCheckoutSettings property={prop} />
+        <ReviewLinksSettings property={prop} />
       </div>
     </>
   );

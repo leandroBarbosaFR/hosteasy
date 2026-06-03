@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Topbar } from "@/components/app/topbar";
+import { AutoRefresh } from "@/components/app/auto-refresh";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { TabletDetailClient } from "./tablet-detail-client";
@@ -39,6 +40,7 @@ export default async function HostTabletDetailPage({
 
   return (
     <>
+      <AutoRefresh intervalMs={15_000} />
       <Topbar
         subtitle={
           <Link

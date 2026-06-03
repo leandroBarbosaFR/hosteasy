@@ -5,6 +5,7 @@ import { Topbar } from "@/components/app/topbar";
 import { StatCard } from "@/components/app/stat-card";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { PropertyCard } from "@/components/app/property-card";
+import { HostBetaToggle } from "./host-beta-toggle";
 import type { Tablet } from "@/types/db";
 
 export default async function AdminHostDetailPage({
@@ -48,6 +49,10 @@ export default async function AdminHostDetailPage({
         <StatCard label="Tablets" value={String(tablets?.length ?? 0)} />
         <StatCard label="Time"    value={String((members?.length ?? 0))} />
         <StatCard label="Plano"   value={host.plan} />
+      </section>
+
+      <section className="px-6 pt-6 md:px-10">
+        <HostBetaToggle hostId={host.id} initial={host.beta_test ?? false} />
       </section>
 
       <section className="px-6 pt-6 md:px-10">

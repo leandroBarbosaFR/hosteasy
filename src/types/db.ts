@@ -14,8 +14,18 @@ export type ExtraOrderStatus =
   | "pending"
   | "approved"
   | "delivered"
-  | "cancelled";
+  | "cancelled"
+  | "pending_payment"
+  | "paid";
 export type MessageSender = "guest" | "host" | "system";
+export type ReservationSourceType = "airbnb" | "booking" | "other";
+export type ExtraCategory =
+  | "late_checkout"
+  | "breakfast"
+  | "transfer"
+  | "welcome_basket"
+  | "groceries"
+  | "custom";
 
 export type Profile = {
   id: string;
@@ -34,6 +44,9 @@ export type Host = {
   owner_id: string | null;
   plan: string;
   status: string;
+  beta_test: boolean;
+  pix_key: string | null;
+  pix_instructions: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -59,6 +72,13 @@ export type Property = {
   cover_image_url: string | null;
   occupancy_rate: number | null;
   status: string;
+  late_checkout_enabled: boolean;
+  late_checkout_price: number | null;
+  late_checkout_until: string | null;
+  review_link_airbnb: string | null;
+  review_link_booking: string | null;
+  review_link_google: string | null;
+  beta_test: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -98,6 +118,10 @@ export type Reservation = {
   amount: number;
   status: ReservationStatus;
   source: ReservationSource;
+  source_uid: string | null;
+  source_reservation_id: string | null;
+  imported_from_ical: boolean;
+  last_synced_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -121,8 +145,37 @@ export type Extra = {
   price: number;
   icon: string | null;
   active: boolean;
+  category: ExtraCategory;
+  image_url: string | null;
   created_at: string;
   updated_at: string;
+};
+
+export type ReservationSourceRow = {
+  id: string;
+  host_id: string;
+  property_id: string;
+  source_type: ReservationSourceType;
+  source_name: string | null;
+  ical_url: string;
+  is_active: boolean;
+  last_synced_at: string | null;
+  last_sync_status: string | null;
+  last_sync_error: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ReviewRequest = {
+  id: string;
+  host_id: string;
+  property_id: string;
+  reservation_id: string | null;
+  tablet_id: string | null;
+  rating: number | null;
+  public_link_clicked: string | null;
+  private_feedback: string | null;
+  created_at: string;
 };
 
 export type ExtraOrder = {
@@ -230,6 +283,8 @@ export type Database = {
       messages: Row<Message>;
       message_templates: Row<MessageTemplate>;
       audit_logs: Row<AuditLog>;
+      reservation_sources: Row<ReservationSourceRow>;
+      review_requests: Row<ReviewRequest>;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

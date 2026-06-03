@@ -7,6 +7,7 @@ import {
   Users,
   Building2,
   Tablet as TabletIcon,
+  FlaskConical,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ const NAV = [
   { href: "/admin/hosts", label: "Anfitriões", Icon: Users },
   { href: "/admin/properties", label: "Imóveis", Icon: Building2 },
   { href: "/admin/tablets", label: "Tablets", Icon: TabletIcon },
+  { href: "/admin/beta", label: "Beta", Icon: FlaskConical },
 ];
 
 export function AdminSidebar({ user }: { user: { name: string; initial: string } }) {

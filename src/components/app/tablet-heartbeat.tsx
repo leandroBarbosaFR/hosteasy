@@ -8,6 +8,7 @@ type BatteryManager = {
   level: number;
   charging: boolean;
   addEventListener?: (type: string, listener: () => void) => void;
+  removeEventListener?: (type: string, listener: () => void) => void;
 };
 
 type NetworkInformation = {
@@ -27,6 +28,7 @@ export function TabletHeartbeat({ tabletCode }: { tabletCode: string }) {
     let cancelled = false;
     let timer: ReturnType<typeof setInterval> | null = null;
     let batteryRef: BatteryManager | null = null;
+    let batteryListenerCleanup: (() => void) | null = null;
 
     async function readBattery(): Promise<{
       battery_percent: number | null;
@@ -37,10 +39,36 @@ export function TabletHeartbeat({ tabletCode }: { tabletCode: string }) {
           getBattery?: () => Promise<BatteryManager>;
         };
         if (!nav.getBattery) return { battery_percent: null, charging: null };
-        if (!batteryRef) batteryRef = await nav.getBattery();
+
+        // Always re-acquire the BatteryManager. Some Chromium-derived
+        // browsers (Fire/Silk) stale the `level` field on a long-lived
+        // reference, which would freeze the dashboard at an old %.
+        const battery = await nav.getBattery();
+
+        // First time we see one, also attach a level-change listener that
+        // pushes a fresh heartbeat the moment the OS reports a change —
+        // dashboard doesn't have to wait for the 60s tick.
+        if (battery !== batteryRef) {
+          batteryListenerCleanup?.();
+          batteryRef = battery;
+          const onChange = () => {
+            if (!cancelled) void send();
+          };
+          battery.addEventListener?.("levelchange", onChange);
+          battery.addEventListener?.("chargingchange", onChange);
+          batteryListenerCleanup = () => {
+            (battery as BatteryManager & {
+              removeEventListener?: (type: string, listener: () => void) => void;
+            }).removeEventListener?.("levelchange", onChange);
+            (battery as BatteryManager & {
+              removeEventListener?: (type: string, listener: () => void) => void;
+            }).removeEventListener?.("chargingchange", onChange);
+          };
+        }
+
         return {
-          battery_percent: Math.round((batteryRef?.level ?? 0) * 100),
-          charging: batteryRef?.charging ?? null,
+          battery_percent: Math.round(battery.level * 100),
+          charging: battery.charging,
         };
       } catch {
         return { battery_percent: null, charging: null };
@@ -100,6 +128,7 @@ export function TabletHeartbeat({ tabletCode }: { tabletCode: string }) {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("online", onOnline);
       window.removeEventListener("offline", onOffline);
+      batteryListenerCleanup?.();
     };
   }, [tabletCode]);
 

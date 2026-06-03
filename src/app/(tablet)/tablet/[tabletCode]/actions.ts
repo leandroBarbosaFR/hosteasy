@@ -60,7 +60,7 @@ async function resolveActiveReservation(tabletCode: string) {
   if (!ctx) return null;
   const { data: reservation } = await ctx.admin
     .from("reservations")
-    .select("id, host_id")
+    .select("id, host_id, property_id, check_out")
     .eq("tablet_id", ctx.tablet.id)
     .in("status", ["confirmed", "in_stay"])
     .order("check_in", { ascending: true })
@@ -102,6 +102,130 @@ export async function sendGuestMessage(
 
   revalidatePath(`/tablet/${tabletCode}/contact`);
   return { ok: true, message: { ...data, sender_type: "guest" } };
+}
+
+export async function requestLateCheckout(
+  tabletCode: string,
+): Promise<{ ok: boolean; error?: string }> {
+  const ctx = await resolveActiveReservation(tabletCode);
+  if (!ctx) return { ok: false, error: "Tablet inválido." };
+  if (!ctx.reservation) {
+    return { ok: false, error: "Sem estadia ativa." };
+  }
+
+  const { data: property } = await ctx.admin
+    .from("properties")
+    .select("id, host_id, late_checkout_enabled, late_checkout_price, late_checkout_until")
+    .eq("id", ctx.reservation.property_id)
+    .maybeSingle();
+  if (!property || !property.late_checkout_enabled) {
+    return { ok: false, error: "Late check-out indisponível." };
+  }
+  const price = Number(property.late_checkout_price ?? 0);
+
+  // Ensure a late_checkout extra exists for this property, then create an
+  // order against it. Using extras lets all the existing dashboard plumbing
+  // (orders list, revenue rollups) keep working.
+  const { data: existingExtra } = await ctx.admin
+    .from("extras")
+    .select("id")
+    .eq("host_id", property.host_id)
+    .eq("category", "late_checkout")
+    .eq("active", true)
+    .maybeSingle();
+
+  let extraId = existingExtra?.id;
+  if (!extraId) {
+    const { data: created } = await ctx.admin
+      .from("extras")
+      .insert({
+        host_id: property.host_id,
+        property_id: property.id,
+        title: "Late check-out",
+        description: `Estender saída até ${property.late_checkout_until ?? "16:00"}.`,
+        price,
+        icon: "clock",
+        category: "late_checkout",
+        active: true,
+      })
+      .select("id")
+      .single();
+    extraId = created?.id;
+  }
+  if (!extraId) return { ok: false, error: "Erro ao registrar oferta." };
+
+  const { error } = await ctx.admin.from("extra_orders").insert({
+    host_id: property.host_id,
+    reservation_id: ctx.reservation.id,
+    extra_id: extraId,
+    quantity: 1,
+    total: price,
+    status: "pending",
+  });
+  if (error) return { ok: false, error: error.message };
+
+  await ctx.admin.from("messages").insert({
+    host_id: property.host_id,
+    reservation_id: ctx.reservation.id,
+    tablet_id: ctx.tablet.id,
+    sender_type: "system",
+    body: `Hóspede solicitou late check-out (R$ ${price.toFixed(0)}).`,
+  });
+
+  revalidatePath(`/tablet/${tabletCode}`);
+  return { ok: true };
+}
+
+const reviewSchema = z.object({
+  rating: z.coerce.number().int().min(1).max(5),
+  public_link_clicked: z.string().nullable().optional(),
+  private_feedback: z.string().max(2000).optional(),
+});
+
+export async function submitReview(
+  tabletCode: string,
+  payload: z.infer<typeof reviewSchema>,
+): Promise<{ ok: boolean; error?: string }> {
+  const parsed = reviewSchema.safeParse(payload);
+  if (!parsed.success) return { ok: false, error: "Dados inválidos." };
+
+  const ctx = await resolveActiveReservation(tabletCode);
+  if (!ctx) return { ok: false, error: "Tablet inválido." };
+
+  // Find the most recent reservation for this tablet, even if checked_out,
+  // so guests can leave a review post-checkout.
+  const { data: lastReservation } = await ctx.admin
+    .from("reservations")
+    .select("id, host_id, property_id")
+    .eq("tablet_id", ctx.tablet.id)
+    .order("check_out", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!lastReservation) return { ok: false, error: "Sem reserva associada." };
+
+  const { error } = await ctx.admin.from("review_requests").insert({
+    host_id: lastReservation.host_id,
+    property_id: lastReservation.property_id,
+    reservation_id: lastReservation.id,
+    tablet_id: ctx.tablet.id,
+    rating: parsed.data.rating,
+    public_link_clicked: parsed.data.public_link_clicked ?? null,
+    private_feedback: parsed.data.private_feedback ?? null,
+  });
+  if (error) return { ok: false, error: error.message };
+
+  if (parsed.data.rating <= 4 && parsed.data.private_feedback) {
+    await ctx.admin.from("messages").insert({
+      host_id: lastReservation.host_id,
+      reservation_id: lastReservation.id,
+      tablet_id: ctx.tablet.id,
+      sender_type: "system",
+      body: `Hóspede deixou ${parsed.data.rating}★ com feedback privado: ${parsed.data.private_feedback}`,
+    });
+  }
+
+  revalidatePath(`/tablet/${tabletCode}`);
+  return { ok: true };
 }
 
 export async function orderExtra(
