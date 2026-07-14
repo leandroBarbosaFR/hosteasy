@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { FlaskConical } from "lucide-react";
+import { Flask as FlaskConical } from "@phosphor-icons/react/ssr";
 import { setHostBeta } from "../../beta/actions";
 
 export function HostBetaToggle({
@@ -21,7 +21,7 @@ export function HostBetaToggle({
           <FlaskConical className="size-5" />
         </div>
         <div>
-          <p className="font-display text-base font-medium tracking-tight">
+          <p className="font-display text-base font-bold tracking-tight">
             Programa beta
           </p>
           <p className="text-xs text-foreground/65">

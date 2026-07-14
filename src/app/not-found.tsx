@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
 
 export default function NotFound() {
@@ -8,10 +8,10 @@ export default function NotFound() {
       <SiteHeader />
       <main className="flex flex-1 items-center justify-center bg-background py-24">
         <div className="mx-auto max-w-xl px-6 text-center">
-          <p className="font-display text-7xl font-medium text-primary md:text-8xl">
+          <p className="font-display text-7xl font-bold text-primary md:text-8xl">
             404
           </p>
-          <h1 className="mt-4 text-balance font-display text-3xl font-medium leading-[1.1] tracking-tight md:text-4xl">
+          <h1 className="mt-4 text-balance font-display text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl">
             Essa página{" "}
             <span className="text-primary">não tá na pousada</span>.
           </h1>

@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useState, useTransition } from "react";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react/ssr";
 import { createTablet } from "./actions";
 import {
   Field,
@@ -37,7 +37,7 @@ export function NewTabletDialog({
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/30 p-4 backdrop-blur-sm md:items-center">
           <div className="w-full max-w-md rounded-3xl border border-border/60 bg-card p-6 shadow-xl">
             <div className="flex items-start justify-between">
-              <h2 className="font-display text-xl font-medium tracking-tight">
+              <h2 className="font-display text-xl font-bold tracking-tight">
                 Novo tablet
               </h2>
               <button
@@ -62,15 +62,14 @@ export function NewTabletDialog({
               className="mt-4 space-y-3"
             >
               <Field
-                label="Código do tablet"
+                label="Código do tablet (opcional)"
                 htmlFor="tablet_code"
-                hint="Vem impresso no equipamento ou você define."
+                hint="Deixe vazio para gerar um código seguro automaticamente."
               >
                 <input
                   id="tablet_code"
                   name="tablet_code"
-                  required
-                  placeholder="TAB-102"
+                  placeholder="Gerado automaticamente"
                   className={inputClass}
                 />
               </Field>

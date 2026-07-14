@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { House } from "@phosphor-icons/react/ssr";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CONTACT_EMAIL, whatsappLink } from "@/lib/site";
+import { MobileNav } from "@/components/landing/mobile-nav";
 
 const NAV_LINKS = [
   { href: "/recursos", label: "Recursos" },
@@ -12,22 +15,20 @@ const NAV_LINKS = [
 export function SiteHeader() {
   return (
     <header className="sticky top-4 z-40 w-full px-4 md:top-6">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between rounded-full bg-background/70 px-4 pl-5 shadow-[0_1px_2px_rgba(31,25,22,0.04)] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-background/50 md:h-16 md:px-6 md:pl-7">
-        <Link href="/" className="flex items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/hosteasyapicon.svg"
-            alt="hosteasy"
-            className="h-7 w-auto md:hidden"
-            draggable={false}
+      <div className="relative mx-auto flex h-14 w-full max-w-5xl items-center justify-between rounded-full bg-background/70 px-4 pl-5 shadow-[0_1px_2px_rgba(31,25,22,0.04)] backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-background/50 md:h-16 md:px-6 md:pl-7">
+        <Link
+          href="/"
+          aria-label="hosteasy — página inicial"
+          className="flex items-center gap-2"
+        >
+          <House
+            weight="fill"
+            aria-hidden
+            className="size-6 shrink-0 text-primary md:size-[1.625rem]"
           />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/host-app-logo.svg"
-            alt="hosteasy"
-            className="hidden h-6 w-auto md:block"
-            draggable={false}
-          />
+          <span className="font-display text-xl font-bold lowercase tracking-tight text-foreground md:text-[1.375rem]">
+            hosteasy
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex">
@@ -58,6 +59,7 @@ export function SiteHeader() {
           >
             Agendar demo
           </Link>
+          <MobileNav links={NAV_LINKS} />
         </div>
       </div>
     </header>
@@ -70,13 +72,16 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/host-app-logo.svg"
-              alt="hosteasy"
-              className="h-6 w-auto"
-              draggable={false}
-            />
+            <Link href="/" className="flex items-center gap-2">
+              <House
+                weight="fill"
+                aria-hidden
+                className="size-6 shrink-0 text-primary"
+              />
+              <span className="font-display text-xl font-bold lowercase tracking-tight text-foreground">
+                hosteasy
+              </span>
+            </Link>
             <p className="mt-3 max-w-xs text-xs leading-relaxed text-foreground/55">
               Tablets com IA para anfitriões de aluguel de temporada.
               Florianópolis, SC.
@@ -107,10 +112,10 @@ export function SiteFooter() {
             title="Fale com a gente"
             links={[
               {
-                href: "https://wa.me/5548991958826?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20o%20Hosteasy!",
+                href: whatsappLink("Olá, quero saber mais sobre o Hosteasy!"),
                 label: "WhatsApp",
               },
-              { href: "mailto:leobarbosacontact@gmail.com", label: "E-mail" },
+              { href: `mailto:${CONTACT_EMAIL}`, label: "E-mail" },
               { href: "/contato", label: "Agendar demo" },
             ]}
           />
@@ -118,7 +123,7 @@ export function SiteFooter() {
 
         <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-border/40 pt-6 text-xs text-foreground/50 md:flex-row md:items-center">
           <p>
-            © {new Date().getFullYear()} HostEasy · Florianópolis, SC ·
+            © {new Date().getFullYear()} hosteasy · Florianópolis, SC ·
             Todos os direitos reservados.
           </p>
           <p>Feito com café no Campeche.</p>

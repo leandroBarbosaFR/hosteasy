@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, XCircle, Tablet as TabletIcon, Calendar, Sparkles, Star, Plug } from "lucide-react";
+import { CheckCircle as CheckCircle2, XCircle, DeviceTablet as TabletIcon, Calendar, Sparkle as Sparkles, Star, Plug } from "@phosphor-icons/react/ssr";
 import { Topbar } from "@/components/app/topbar";
 import { AutoRefresh } from "@/components/app/auto-refresh";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -126,7 +126,7 @@ export default async function AdminBetaPage() {
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
                       {(e.property.hosts as { name?: string } | null)?.name ?? "—"}
                     </p>
-                    <h3 className="mt-1 font-display text-lg font-medium tracking-tight">
+                    <h3 className="mt-1 font-display text-lg font-bold tracking-tight">
                       {e.property.name}
                       {e.property.unit_code ? ` · ${e.property.unit_code}` : ""}
                     </h3>
@@ -135,7 +135,7 @@ export default async function AdminBetaPage() {
                     <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
                       Completude
                     </p>
-                    <p className="font-display text-2xl font-medium tracking-tight">
+                    <p className="font-display text-2xl font-bold tracking-tight">
                       {Math.round(e.completion * 100)}%
                     </p>
                   </div>
@@ -224,7 +224,7 @@ function Metric({
           {label}
         </p>
       </div>
-      <p className="mt-1 font-display text-base font-medium tracking-tight">{value}</p>
+      <p className="mt-1 font-display text-base font-bold tracking-tight">{value}</p>
     </div>
   );
 }

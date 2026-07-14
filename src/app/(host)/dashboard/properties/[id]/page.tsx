@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "@phosphor-icons/react/ssr";
 import { Topbar } from "@/components/app/topbar";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -8,7 +8,9 @@ import { AssignTabletForm } from "./assign-tablet-form";
 import { ReservationSourcesSection } from "./reservation-sources-section";
 import { LateCheckoutSettings } from "./late-checkout-settings";
 import { ReviewLinksSettings } from "./review-links-settings";
-import type { ReservationSourceRow, Property } from "@/types/db";
+import { DefaultCleanerSettings } from "./default-cleaner-settings";
+import { PropertyCoverUpload } from "./property-cover-upload";
+import type { ReservationSourceRow, Property, WorkerSpecialty } from "@/types/db";
 
 export default async function PropertyDetailPage({
   params,
@@ -29,19 +31,35 @@ export default async function PropertyDetailPage({
   if (!property) notFound();
   const prop = property as Property;
 
-  const [{ data: tablet }, { data: sources }, { count: importedCount }] = await Promise.all([
-    supabase.from("tablets").select("*").eq("property_id", id).maybeSingle(),
-    supabase
-      .from("reservation_sources")
-      .select("*")
-      .eq("property_id", id)
-      .order("created_at"),
-    supabase
-      .from("reservations")
-      .select("id", { count: "exact", head: true })
-      .eq("property_id", id)
-      .eq("imported_from_ical", true),
-  ]);
+  const [{ data: tablet }, { data: sources }, { count: importedCount }, { data: members }] =
+    await Promise.all([
+      supabase.from("tablets").select("*").eq("property_id", id).maybeSingle(),
+      supabase
+        .from("reservation_sources")
+        .select("*")
+        .eq("property_id", id)
+        .order("created_at"),
+      supabase
+        .from("reservations")
+        .select("id", { count: "exact", head: true })
+        .eq("property_id", id)
+        .eq("imported_from_ical", true),
+      supabase
+        .from("host_members")
+        .select("user_id, specialty, profiles:user_id(full_name, email)")
+        .eq("host_id", hostId)
+        .order("created_at"),
+    ]);
+
+  const teamMembers = (members ?? []).map((m) => {
+    const rel = Array.isArray(m.profiles) ? m.profiles[0] : m.profiles;
+    const p = rel as { full_name?: string | null; email?: string | null } | null;
+    return {
+      userId: m.user_id as string,
+      name: p?.full_name ?? p?.email ?? "Membro",
+      specialty: (m.specialty ?? "general") as WorkerSpecialty,
+    };
+  });
 
   return (
     <>
@@ -59,7 +77,7 @@ export default async function PropertyDetailPage({
 
       <div className="grid gap-4 px-6 pt-6 md:grid-cols-2 md:px-10">
         <div className="rounded-3xl border border-border/50 bg-card p-6 shadow-sm">
-          <h2 className="font-display text-lg font-medium tracking-tight">
+          <h2 className="font-display text-lg font-bold tracking-tight">
             Informações
           </h2>
           <dl className="mt-3 space-y-2 text-sm">
@@ -79,7 +97,7 @@ export default async function PropertyDetailPage({
         </div>
 
         <div className="rounded-3xl border border-border/50 bg-card p-6 shadow-sm">
-          <h2 className="font-display text-lg font-medium tracking-tight">
+          <h2 className="font-display text-lg font-bold tracking-tight">
             Tablet
           </h2>
           {tablet ? (
@@ -115,6 +133,16 @@ export default async function PropertyDetailPage({
             importedCount={importedCount ?? 0}
           />
         </div>
+
+        <DefaultCleanerSettings
+          propertyId={prop.id}
+          currentCleanerId={prop.default_cleaner_id}
+          members={teamMembers}
+        />
+        <PropertyCoverUpload
+          propertyId={prop.id}
+          coverUrl={prop.cover_image_url}
+        />
 
         <LateCheckoutSettings property={prop} />
         <ReviewLinksSettings property={prop} />

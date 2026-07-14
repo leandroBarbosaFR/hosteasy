@@ -3,29 +3,7 @@
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import {
-  Home as HomeIcon,
-  Compass,
-  Sparkles,
-  BookOpen,
-  Globe,
-  MessageSquare,
-  Settings,
-  Wifi,
-  Coffee,
-  Utensils,
-  MapPin,
-  ShoppingBag,
-  Calendar,
-  Bell,
-  Lock,
-  Sun,
-  Volume2,
-  Search,
-  ArrowRight,
-  Star,
-  Send,
-} from "lucide-react";
+import { House as HomeIcon, Compass, Sparkle as Sparkles, BookOpen, Globe, Chat as MessageSquare, Gear as Settings, WifiHigh as Wifi, Coffee, ForkKnife as Utensils, MapPin, ShoppingBag, Calendar, Bell, Lock, SpeakerHigh as Volume2, MagnifyingGlass as Search, ArrowRight, Star, Sun, PaperPlaneTilt as Send } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 
 type ViewKey =
@@ -500,7 +478,7 @@ function PlaceRow({
         <p className="text-[11px] text-foreground/60">{tag}</p>
       </div>
       <div className="flex items-center gap-1 text-xs font-semibold text-primary">
-        <Star className="size-3 fill-primary" />
+        <Star className="size-3 fill-primary" weight="fill" />
         {rating}
       </div>
     </div>

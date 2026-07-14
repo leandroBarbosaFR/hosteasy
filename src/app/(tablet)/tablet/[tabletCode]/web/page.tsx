@@ -24,7 +24,7 @@ export default async function TabletWebPage({
         <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
           Web
         </p>
-        <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
+        <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
           Atalhos
         </h1>
         <p className="mt-1 text-sm text-foreground/65">

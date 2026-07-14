@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import {
   Field,
   FormMessage,

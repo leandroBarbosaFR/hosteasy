@@ -4,6 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { ensureCleaningTask } from "@/lib/cleaning";
 
 const schema = z.object({
   property_id: z.string().uuid(),
@@ -37,19 +38,27 @@ export async function createReservation(formData: FormData) {
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.from("reservations").insert({
-    host_id: hostId,
-    property_id: parsed.data.property_id,
-    guest_name: parsed.data.guest_name,
-    guest_email: parsed.data.guest_email || null,
-    guest_phone: parsed.data.guest_phone || null,
-    check_in: parsed.data.check_in,
-    check_out: parsed.data.check_out,
-    amount: parsed.data.amount,
-    source: parsed.data.source,
-    status: "confirmed",
-  });
-  if (error) return { ok: false, error: error.message };
+  const { data: created, error } = await supabase
+    .from("reservations")
+    .insert({
+      host_id: hostId,
+      property_id: parsed.data.property_id,
+      guest_name: parsed.data.guest_name,
+      guest_email: parsed.data.guest_email || null,
+      guest_phone: parsed.data.guest_phone || null,
+      check_in: parsed.data.check_in,
+      check_out: parsed.data.check_out,
+      amount: parsed.data.amount,
+      source: parsed.data.source,
+      status: "confirmed",
+    })
+    .select("id")
+    .single();
+  if (error || !created) return { ok: false, error: error?.message ?? "Erro" };
+
+  // Property has a default cleaner → schedule the post-checkout clean now.
+  await ensureCleaningTask(created.id);
+
   revalidatePath("/dashboard/reservations");
   revalidatePath("/dashboard");
   return { ok: true };

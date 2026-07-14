@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Tablet as TabletIcon, Wifi, WifiOff } from "lucide-react";
+import { MapPin, DeviceTablet as TabletIcon, WifiHigh as Wifi, WifiSlash as WifiOff } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 import type { Property, Tablet } from "@/types/db";
 
@@ -27,7 +27,7 @@ export function PropertyCard({
           <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
             {property.unit_code ?? "Imóvel"}
           </p>
-          <h3 className="mt-1 font-display text-lg font-medium tracking-tight">
+          <h3 className="mt-1 font-display text-lg font-bold tracking-tight">
             {property.name}
           </h3>
           {property.city ? (

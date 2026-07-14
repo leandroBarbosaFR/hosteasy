@@ -28,11 +28,41 @@ NEXT_PUBLIC_SUPABASE_URL=https://YOUR-PROJECT.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+CRON_SECRET=...
 ```
 
 - `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — get them from **Supabase dashboard → Project Settings → API**.
 - `SUPABASE_SERVICE_ROLE_KEY` — same page. **Server-only.** Never expose to the browser. Used for the super-admin actions and for the unauthenticated tablet routes.
 - `NEXT_PUBLIC_SITE_URL` — base URL used for password-reset / email-confirmation redirects. Use `http://localhost:3000` locally and your production URL in deployment env.
+- `CRON_SECRET` — any long random string. Vercel sends it as `Authorization: Bearer` on cron invocations of `/api/cron/sync-reservations` (hourly iCal sync of every active Airbnb/Booking feed, see `vercel.json`). Hourly crons need a Vercel Pro plan; on Hobby change the schedule to daily.
+- Optional: `NEXT_PUBLIC_CONTACT_WHATSAPP`, `NEXT_PUBLIC_CONTACT_WHATSAPP_DISPLAY`, `NEXT_PUBLIC_CONTACT_EMAIL` — override the marketing-site contact details (`src/lib/site.ts`).
+- Optional: `HOSTEASY_MONTHLY_COST_BRL` — plan price used by the ROI panel (default 99).
+
+### Optional integrations (features activate when the keys exist)
+
+All of these are env-gated in `src/lib/deliver.ts` / `src/lib/mercadopago.ts` — with no keys, notifications stay in-app only and extras use the manual PIX-key flow.
+
+```
+# E-mail delivery of notifications (Resend)
+RESEND_API_KEY=...
+NOTIFY_EMAIL_FROM="Hosteasy <avisos@yourdomain.com>"
+
+# WhatsApp delivery of notifications (Meta WhatsApp Cloud API)
+WHATSAPP_ACCESS_TOKEN=...
+WHATSAPP_PHONE_NUMBER_ID=...
+WHATSAPP_TEMPLATE_NAME=...        # approved template with one {{1}} body param
+WHATSAPP_TEMPLATE_LANG=pt_BR      # default
+
+# PIX charging for extras (Mercado Pago)
+MERCADOPAGO_ACCESS_TOKEN=...
+# then register the webhook in the MP dashboard (payment events):
+#   https://<your-domain>/api/webhooks/mercadopago
+```
+
+Notes:
+- Without `WHATSAPP_TEMPLATE_NAME`, WhatsApp messages are sent as plain text, which Meta only delivers inside a 24-hour session window — fine for testing, use an approved template in production.
+- The host sets their own WhatsApp number and toggles per-channel delivery in **Dashboard → Ajustes → Notificações**.
+- With Mercado Pago configured, approving an order creates a PIX charge; the guest sees the QR on the tablet and the webhook flips the order to `paid` automatically.
 
 ---
 
@@ -59,6 +89,9 @@ supabase db push
 |--------------------------------------|---------------------------------------------------|
 | `supabase/migrations/0001_schema.sql` | Tables, enums, indexes, `updated_at` triggers, auto-profile-on-signup trigger |
 | `supabase/migrations/0002_rls.sql`    | Helper functions + Row Level Security policies   |
+| `supabase/migrations/0003_roi_engine.sql` | iCal sync, extras categories, late checkout, review boost, PIX |
+| `supabase/migrations/0004_staff_tasks.sql` | Staff tasks + comments (the `/staff` workspace) |
+| `supabase/migrations/0005_ops_suite.sql` | Worker specialties, host↔staff chat, inventory/stock, in-app notifications |
 
 ### Option B — Raw psql
 

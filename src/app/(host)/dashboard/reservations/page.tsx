@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus } from "@phosphor-icons/react/ssr";
 import { Topbar } from "@/components/app/topbar";
 import { ReservationList } from "@/components/app/reservation-list";
 import { EmptyState } from "@/components/app/empty-state";
@@ -17,7 +17,7 @@ export default async function ReservationsPage({
   searchParams: Promise<{ filter?: Filter; new?: string }>;
 }) {
   const { filter, new: openNew } = await searchParams;
-  const { hostId } = await requireHostContext();
+  const { hostId, profile } = await requireHostContext();
   const supabase = await createSupabaseServerClient();
 
   let query = supabase
@@ -84,7 +84,10 @@ export default async function ReservationsPage({
 
       <div className="px-6 pt-4 md:px-10">
         {reservations?.length ? (
-          <ReservationList reservations={reservations} />
+          <ReservationList
+            reservations={reservations}
+            showCleaningAction={profile.role !== "host_staff"}
+          />
         ) : (
           <EmptyState
             title="Nenhuma reserva ainda"

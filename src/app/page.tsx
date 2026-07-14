@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star } from "@phosphor-icons/react/ssr";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
@@ -8,6 +9,8 @@ import { HostDashboardMockup } from "@/components/landing/host-dashboard-mockup"
 import { Features } from "@/components/landing/features";
 import { LogoMarquee } from "@/components/landing/logo-marquee";
 import { HowItWorks } from "@/components/landing/how-it-works";
+import { RoiCalculator } from "@/components/landing/roi-calculator";
+import { Testimonials } from "@/components/landing/testimonials";
 import { Pricing } from "@/components/landing/pricing";
 import { Faq } from "@/components/landing/faq";
 import { FinalCta } from "@/components/landing/final-cta";
@@ -20,8 +23,10 @@ export default function Page() {
         <Hero />
         <LogoMarquee />
         <Features />
-        <HowItWorks />
+        <RoiCalculator />
         <HostDashboardSection />
+        <Testimonials />
+        <HowItWorks />
         <Pricing />
         <Faq />
         <FinalCta />
@@ -52,19 +57,21 @@ function Hero() {
               />
             </div>
             <span className="flex items-center gap-1 text-xs font-semibold text-foreground/80">
-              <Star className="size-3.5 fill-primary text-primary" />
+              <Star className="size-3.5 fill-primary text-primary" weight="fill" />
               4.9 · 200+ anfitriões
             </span>
           </div>
         </div>
 
-        <h1 className="mt-8 text-balance font-display text-5xl font-medium leading-[1.02] tracking-tight text-foreground md:text-[5.25rem]">
-          Aumente a receita por estadia.{" "}
-          <span className="text-primary">Reduza as perguntas</span> do hóspede.
+        <h1 className="mt-8 text-balance font-display text-5xl font-bold leading-[1.02] tracking-tight text-foreground md:text-[5.25rem]">
+          <span className="text-primary">Até R$ 620 a mais</span> por imóvel.
+          Sem responder uma mensagem.
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-foreground/65 md:text-lg">
-          Transforme a experiência no imóvel com um tablet inteligente que ajuda o hóspede a comprar extras, tirar dúvidas e agir na hora. Sem app, sem login, sem QR code. O hóspede toca, paga, você confirma.
+          Um tablet inteligente dentro do imóvel vende os extras, ativa parceiros
+          locais e tira as dúvidas do hóspede sozinho. Sem app, sem login, sem QR
+          code, ele manda uma notificação, paga, e você só confirma.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
@@ -106,10 +113,11 @@ function Hero() {
 
 function Avatar({ src, alt }: { src: string; alt: string }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src={src}
       alt={alt}
+      width={36}
+      height={36}
       className="size-9 rounded-full border-2 border-background object-cover"
     />
   );
@@ -174,7 +182,7 @@ function HostDashboardSection() {
             <span className="size-1.5 rounded-full bg-primary" />
             Para o anfitrião
           </span>
-          <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
+          <h2 className="mt-5 text-balance font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl">
             Tudo que vende, tudo que pergunta{" "}
             <span className="text-primary">num só painel</span>
           </h2>
@@ -184,11 +192,53 @@ function HostDashboardSection() {
             segundos. Decisões baseadas em dado, não em achismo.
           </p>
         </div>
+        {/* O mockup é interativo e desenhado para telas largas. No mobile,
+            mostramos o mesmo conteúdo como cartões em vez de esconder a seção. */}
         <div className="mx-auto mt-14 hidden max-w-5xl md:block">
           <HostDashboardMockup />
         </div>
+        <ul className="mt-12 grid gap-4 md:hidden">
+          {dashboardHighlights.map((item) => (
+            <li
+              key={item.title}
+              className="relative overflow-hidden rounded-3xl border border-white/50 bg-white/45 p-6 shadow-[0_1px_2px_rgba(31,25,22,0.04)] backdrop-blur-2xl backdrop-saturate-150"
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
+              />
+              <p className="font-display text-2xl font-bold tracking-tight text-primary">
+                {item.metric}
+              </p>
+              <h3 className="mt-2 font-display text-lg font-bold tracking-tight text-foreground">
+                {item.title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-foreground/70">
+                {item.body}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
 }
+
+const dashboardHighlights = [
+  {
+    metric: "R$ 4.180",
+    title: "Receita extra do mês",
+    body: "Quanto cada imóvel rendeu além da diária, atualizado em tempo real.",
+  },
+  {
+    metric: "Top 3",
+    title: "Extras que mais convertem",
+    body: "Veja o que o hóspede realmente compra e ajuste preço e destaque.",
+  },
+  {
+    metric: "30s",
+    title: "Editar um imóvel",
+    body: "Troque conteúdo, fotos e parceiros de qualquer imóvel pelo navegador.",
+  },
+];
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { Send } from "lucide-react";
+import { PaperPlaneTilt as Send } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 import type { Message } from "@/types/db";
 

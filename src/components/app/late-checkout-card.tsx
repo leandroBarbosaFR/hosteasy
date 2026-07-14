@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Clock, Check, ArrowRight } from "lucide-react";
+import { Clock, Check, ArrowRight } from "@phosphor-icons/react/ssr";
 import { formatBRL } from "@/lib/format";
 import { requestLateCheckout } from "@/app/(tablet)/tablet/[tabletCode]/actions";
 
@@ -26,7 +26,7 @@ export function LateCheckoutCard({
             <Check className="size-5" />
           </div>
           <div>
-            <p className="font-display text-lg font-medium tracking-tight">
+            <p className="font-display text-lg font-bold tracking-tight">
               Pedido enviado
             </p>
             <p className="text-sm text-foreground/65">
@@ -45,7 +45,7 @@ export function LateCheckoutCard({
           <p className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
             <Clock className="size-3" /> Oferta para você
           </p>
-          <h3 className="mt-3 font-display text-2xl font-medium tracking-tight">
+          <h3 className="mt-3 font-display text-2xl font-bold tracking-tight">
             Precisa de mais tempo?
           </h3>
           <p className="mt-1 text-sm text-foreground/65">
@@ -56,7 +56,7 @@ export function LateCheckoutCard({
           <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
             Preço
           </p>
-          <p className="font-display text-xl font-medium tracking-tight">
+          <p className="font-display text-xl font-bold tracking-tight">
             {formatBRL(price)}
           </p>
         </div>

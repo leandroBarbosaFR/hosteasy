@@ -3,22 +3,7 @@
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import {
-  LayoutDashboard,
-  CalendarDays,
-  MessageSquare,
-  LineChart as LineChartIcon,
-  Building2,
-  Settings,
-  Search,
-  Bell,
-  ArrowUpRight,
-  ArrowDownRight,
-  Star,
-  Check,
-  MapPin,
-  Plus,
-} from "lucide-react";
+import { SquaresFour as LayoutDashboard, CalendarDots as CalendarDays, Chat as MessageSquare, ChartLine as LineChartIcon, Buildings as Building2, Gear as Settings, MagnifyingGlass as Search, Bell, ArrowUpRight, ArrowDownRight, Star, Check, MapPin, Plus } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 
 type ViewKey =
@@ -227,7 +212,7 @@ function VisaoGeralView() {
         <StatCard label="Receita do mês" value="R$ 15.420" trend="up" delta="+12%" />
         <StatCard label="Ocupação" value="87%" trend="up" delta="+4%" />
         <StatCard label="Reservas ativas" value="12" trend="up" delta="+3" />
-        <StatCard label="Nota média" value="4.9" trend="up" delta="↑" icon={<Star className="size-3 fill-primary text-primary" />} />
+        <StatCard label="Nota média" value="4.9" trend="up" delta="↑" icon={<Star className="size-3 fill-primary text-primary" weight="fill" />} />
       </div>
 
       <div data-stagger className="mt-4 grid grid-cols-5 gap-3">

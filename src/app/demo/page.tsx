@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowRight,
-  MessageCircle,
-  Calendar,
-  Clock,
-  CheckCircle2,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowRight, ChatCircle as MessageCircle, Calendar, Clock, CheckCircle as CheckCircle2, ShieldCheck } from "@phosphor-icons/react/ssr";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
+import { CONTACT_EMAIL, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Agendar demo · Hosteasy",
@@ -18,12 +12,10 @@ export const metadata: Metadata = {
 
 // Pre-filled WhatsApp message specific to "agendar demo" intent. Different
 // from the generic /contato message so we can attribute leads later.
-const WHATSAPP_DEMO_HREF =
-  "https://wa.me/5548991958826?text=" +
-  encodeURIComponent(
-    "Oi Leandro! Quero agendar 15 min de demo do Hosteasy. " +
-      "Posso falar [coloque seu melhor horário].",
-  );
+const WHATSAPP_DEMO_HREF = whatsappLink(
+  "Oi Leandro! Quero agendar 15 min de demo do Hosteasy. " +
+    "Posso falar [coloque seu melhor horário].",
+);
 
 export default function DemoPage() {
   return (
@@ -47,7 +39,7 @@ function Hero() {
           <span className="size-1.5 rounded-full bg-primary" />
           Demo
         </span>
-        <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
+        <h1 className="mt-5 text-balance font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl">
           15 minutos comigo —{" "}
           <span className="text-primary">com o painel rodando</span>
         </h1>
@@ -70,8 +62,8 @@ function Booking() {
             {/* Left: pitch */}
             <div className="border-b border-border/60 p-7 md:border-b-0 md:border-r">
               <div className="flex items-center gap-2">
-                <Calendar className="size-5 text-primary" strokeWidth={1.75} />
-                <h2 className="font-display text-xl font-medium tracking-tight">
+                <Calendar className="size-5 text-primary" weight="light" />
+                <h2 className="font-display text-xl font-bold tracking-tight">
                   Agendar pelo WhatsApp
                 </h2>
               </div>
@@ -97,14 +89,14 @@ function Booking() {
             {/* Right: alternative channels */}
             <div className="p-7">
               <div className="flex items-center gap-2">
-                <Clock className="size-5 text-foreground/60" strokeWidth={1.75} />
-                <h2 className="font-display text-xl font-medium tracking-tight">
+                <Clock className="size-5 text-foreground/60" weight="light" />
+                <h2 className="font-display text-xl font-bold tracking-tight">
                   Prefere outro canal?
                 </h2>
               </div>
               <div className="mt-4 space-y-3">
                 <Link
-                  href="mailto:leobarbosacontact@gmail.com?subject=Demo%20Hosteasy"
+                  href={`mailto:${CONTACT_EMAIL}?subject=Demo%20Hosteasy`}
                   className="flex items-center justify-between rounded-2xl border border-border/60 px-4 py-3 text-sm font-medium hover:bg-muted/40"
                 >
                   <span>E-mail</span>
@@ -148,7 +140,7 @@ function WhatToExpect() {
   return (
     <section className="bg-background py-14 md:py-[60px]">
       <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-center font-display text-3xl font-medium leading-[1.05] tracking-tight md:text-4xl">
+        <h2 className="text-center font-display text-3xl font-bold leading-[1.05] tracking-tight md:text-4xl">
           O que cabe em 15 minutos
         </h2>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -157,7 +149,7 @@ function WhatToExpect() {
               key={s.title}
               className="rounded-3xl border border-border/60 bg-card p-6"
             >
-              <h3 className="font-display text-lg font-medium tracking-tight">
+              <h3 className="font-display text-lg font-bold tracking-tight">
                 {s.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-foreground/70">

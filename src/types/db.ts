@@ -19,6 +19,20 @@ export type ExtraOrderStatus =
   | "paid";
 export type MessageSender = "guest" | "host" | "system";
 export type ReservationSourceType = "airbnb" | "booking" | "other";
+export type StaffTaskStatus =
+  | "pending"
+  | "in_progress"
+  | "done"
+  | "blocked"
+  | "cancelled";
+export type StaffTaskCategory =
+  | "cleaning"
+  | "maintenance"
+  | "supplies"
+  | "check_in"
+  | "check_out"
+  | "other";
+export type StaffTaskPriority = "low" | "normal" | "high" | "urgent";
 export type ExtraCategory =
   | "late_checkout"
   | "breakfast"
@@ -26,6 +40,34 @@ export type ExtraCategory =
   | "welcome_basket"
   | "groceries"
   | "custom";
+export type WorkerSpecialty =
+  | "cleaning"
+  | "maintenance"
+  | "painting"
+  | "laundry"
+  | "gardening"
+  | "pool"
+  | "general";
+export type InventoryCategory =
+  | "amenities"
+  | "cleaning_supplies"
+  | "linens"
+  | "kitchen"
+  | "maintenance"
+  | "other";
+export type InventoryMovementReason =
+  | "restock"
+  | "consumption"
+  | "count"
+  | "adjustment";
+export type NotificationType =
+  | "new_reservation"
+  | "low_stock"
+  | "new_order"
+  | "guest_message"
+  | "task_assigned"
+  | "sync_error"
+  | "other";
 
 export type Profile = {
   id: string;
@@ -47,6 +89,9 @@ export type Host = {
   beta_test: boolean;
   pix_key: string | null;
   pix_instructions: string | null;
+  whatsapp_number: string | null;
+  notify_email: boolean;
+  notify_whatsapp: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -56,6 +101,7 @@ export type HostMember = {
   host_id: string;
   user_id: string;
   role: "host_admin" | "host_staff";
+  specialty: WorkerSpecialty;
   permissions: Record<string, unknown>;
   created_at: string;
 };
@@ -79,6 +125,7 @@ export type Property = {
   review_link_booking: string | null;
   review_link_google: string | null;
   beta_test: boolean;
+  default_cleaner_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -178,6 +225,32 @@ export type ReviewRequest = {
   created_at: string;
 };
 
+export type StaffTask = {
+  id: string;
+  host_id: string;
+  property_id: string | null;
+  reservation_id: string | null;
+  assignee_id: string | null;
+  created_by_id: string | null;
+  title: string;
+  description: string | null;
+  category: StaffTaskCategory;
+  status: StaffTaskStatus;
+  priority: StaffTaskPriority;
+  due_at: string | null;
+  completed_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type StaffTaskComment = {
+  id: string;
+  task_id: string;
+  sender_id: string | null;
+  body: string;
+  created_at: string;
+};
+
 export type ExtraOrder = {
   id: string;
   host_id: string;
@@ -186,6 +259,11 @@ export type ExtraOrder = {
   quantity: number;
   total: number;
   status: ExtraOrderStatus;
+  payment_provider: string | null;
+  payment_id: string | null;
+  payment_qr: string | null;
+  payment_qr_base64: string | null;
+  payment_expires_at: string | null;
   created_at: string;
 };
 
@@ -245,6 +323,58 @@ export type MessageTemplate = {
   updated_at: string;
 };
 
+export type StaffMessage = {
+  id: string;
+  host_id: string;
+  sender_id: string;
+  recipient_id: string;
+  body: string;
+  read_at: string | null;
+  created_at: string;
+};
+
+export type InventoryItem = {
+  id: string;
+  host_id: string;
+  property_id: string | null;
+  name: string;
+  category: InventoryCategory;
+  unit: string;
+  current_qty: number;
+  min_qty: number;
+  notes: string | null;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type InventoryMovement = {
+  id: string;
+  item_id: string;
+  host_id: string;
+  delta: number;
+  qty_after: number;
+  reason: InventoryMovementReason;
+  task_id: string | null;
+  created_by: string | null;
+  note: string | null;
+  created_at: string;
+};
+
+export type Notification = {
+  id: string;
+  host_id: string;
+  user_id: string;
+  type: NotificationType;
+  title: string;
+  body: string | null;
+  entity_type: string | null;
+  entity_id: string | null;
+  action_path: string | null;
+  read_at: string | null;
+  created_at: string;
+};
+
 export type AuditLog = {
   id: string;
   actor_id: string | null;
@@ -285,6 +415,12 @@ export type Database = {
       audit_logs: Row<AuditLog>;
       reservation_sources: Row<ReservationSourceRow>;
       review_requests: Row<ReviewRequest>;
+      staff_tasks: Row<StaffTask>;
+      staff_task_comments: Row<StaffTaskComment>;
+      staff_messages: Row<StaffMessage>;
+      inventory_items: Row<InventoryItem>;
+      inventory_movements: Row<InventoryMovement>;
+      notifications: Row<Notification>;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "@phosphor-icons/react/ssr";
 import { Topbar } from "@/components/app/topbar";
 import { StatCard } from "@/components/app/stat-card";
 import { createSupabaseServerClient } from "@/lib/supabase/server";

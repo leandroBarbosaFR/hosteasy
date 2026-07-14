@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Star, ArrowRight } from "lucide-react";
+import { Star, ArrowRight } from "@phosphor-icons/react/ssr";
 import { TabletMockup } from "@/components/landing/tablet-mockup";
 import { Wordmark } from "@/components/landing/logo";
 import { cn } from "@/lib/utils";
@@ -134,7 +134,7 @@ function AdCanvas({
 
       {/* metric chip top-right */}
       <div className="absolute right-6 top-6 rounded-2xl bg-[#1f1916] px-3 py-2 text-white shadow-lg md:right-8 md:top-8">
-        <p className="font-display text-lg font-medium leading-none">
+        <p className="font-display text-lg font-bold leading-none">
           {v.metric}
         </p>
         <p className="mt-0.5 text-[10px] uppercase tracking-wider text-white/60">
@@ -158,7 +158,7 @@ function AdCanvas({
         </p>
         <h2
           className={cn(
-            "mt-2 text-balance font-display font-medium leading-[1.02] tracking-tight",
+            "mt-2 text-balance font-display font-bold leading-[1.02] tracking-tight",
             format === "story"
               ? "text-3xl"
               : format === "portrait"
@@ -192,7 +192,7 @@ function AdCanvas({
       {/* footer pill / CTA */}
       <div className="absolute inset-x-0 bottom-6 flex justify-center md:bottom-8">
         <div className="inline-flex items-center gap-1.5 rounded-full bg-[#1f1916] px-3.5 py-1.5 text-xs font-semibold text-white">
-          <Star className="size-3.5 fill-primary text-primary" />
+          <Star className="size-3.5 fill-primary text-primary" weight="fill" />
           {v.cta}
           <ArrowRight className="size-3.5" />
         </div>

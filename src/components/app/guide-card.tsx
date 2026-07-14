@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-  Wifi,
-  Utensils,
-  Snowflake,
-  LogOut,
-  ChevronRight,
-  BookOpen,
-} from "lucide-react";
+import { WifiHigh as Wifi, ForkKnife as Utensils, Snowflake, SignOut as LogOut, CaretRight as ChevronRight, BookOpen } from "@phosphor-icons/react/ssr";
 import type { GuideCategory } from "@/types/db";
 
 const ICONS = {
@@ -36,7 +29,7 @@ export function GuideCard({
         <Icon className="size-5" />
       </div>
       <div className="min-w-0 flex-1">
-        <h3 className="truncate font-display text-base font-medium tracking-tight">
+        <h3 className="truncate font-display text-base font-bold tracking-tight">
           {category.title}
         </h3>
         {category.subtitle ? (

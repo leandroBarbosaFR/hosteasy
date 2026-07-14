@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Tablet as TabletIcon, ArrowRight } from "lucide-react";
+import { DeviceTablet as TabletIcon, ArrowRight } from "@phosphor-icons/react/ssr";
 
 export const metadata = { title: "Hosteasy · Tablet" };
 
@@ -10,7 +10,7 @@ export default function TabletIndexPage() {
         <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-white/60 text-primary shadow-sm backdrop-blur-xl">
           <TabletIcon className="size-6" />
         </div>
-        <h1 className="mt-5 font-display text-3xl font-medium tracking-tight md:text-4xl">
+        <h1 className="mt-5 font-display text-3xl font-bold tracking-tight md:text-4xl">
           Tablet do hóspede
         </h1>
         <p className="mt-3 text-sm text-foreground/65">

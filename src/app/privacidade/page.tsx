@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { LegalPage } from "@/components/landing/legal-page";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata = {
-  title: "Política de Privacidade · HostEasy",
+  title: "Política de Privacidade · hosteasy",
 };
 
 export default function PrivacidadePage() {
@@ -13,7 +14,7 @@ export default function PrivacidadePage() {
       lastUpdated="12 de maio de 2026"
     >
       <p>
-        A <strong>HostEasy Tecnologia Ltda.</strong> respeita sua privacidade
+        A <strong>hosteasy Tecnologia Ltda.</strong> respeita sua privacidade
         e trata seus dados pessoais de acordo com a Lei Geral de Proteção de
         Dados (LGPD — Lei nº 13.709/2018). Aqui explicamos quais dados
         coletamos, como usamos e quais são seus direitos.
@@ -30,7 +31,7 @@ export default function PrivacidadePage() {
         idioma escolhido, interações com o conteúdo (cliques, tempo de tela,
         extras solicitados) e mensagens trocadas com o anfitrião. Dados de
         pagamento (cartão) são processados diretamente pela operadora e{" "}
-        <strong>não ficam armazenados</strong> no HostEasy.
+        <strong>não ficam armazenados</strong> no hosteasy.
       </p>
       <p>
         <strong>Automaticamente:</strong> dados técnicos (endereço IP,
@@ -87,9 +88,7 @@ export default function PrivacidadePage() {
       </ul>
       <p>
         Pra exercer esses direitos, escreva pra{" "}
-        <Link href="mailto:leobarbosacontact@gmail.com">
-          leobarbosacontact@gmail.com
-        </Link>{" "}
+        <Link href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link>{" "}
         com o assunto &ldquo;LGPD&rdquo;. Respondemos em até 15 dias.
       </p>
 
@@ -116,7 +115,7 @@ export default function PrivacidadePage() {
 
       <h2>8. Crianças</h2>
       <p>
-        O HostEasy não é destinado a menores de 18 anos. Se descobrirmos
+        O hosteasy não é destinado a menores de 18 anos. Se descobrirmos
         que dados de uma criança foram coletados, eles serão eliminados.
       </p>
 
@@ -130,9 +129,7 @@ export default function PrivacidadePage() {
       <p>
         <strong>Leandro Barbosa</strong> — co-fundador e Encarregado pelo
         Tratamento de Dados Pessoais.{" "}
-        <Link href="mailto:leobarbosacontact@gmail.com">
-          leobarbosacontact@gmail.com
-        </Link>
+        <Link href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link>
       </p>
     </LegalPage>
   );

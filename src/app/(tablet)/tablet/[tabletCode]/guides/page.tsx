@@ -26,7 +26,7 @@ export default async function TabletGuidesPage({
         <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
           Guia da casa
         </p>
-        <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
+        <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
           O que saber para curtir
         </h1>
       </header>

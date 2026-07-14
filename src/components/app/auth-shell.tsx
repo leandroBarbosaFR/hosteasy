@@ -29,7 +29,7 @@ export function AuthShell({
         </Link>
 
         <div className="rounded-3xl border border-border/60 bg-card p-8 md:p-10">
-          <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
+          <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
             {title}
           </h1>
           {subtitle ? (

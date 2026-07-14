@@ -1,5 +1,6 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
+import { ScheduleCleaningButton } from "@/components/app/schedule-cleaning-button";
 import type { Reservation } from "@/types/db";
 
 export type ReservationWithProperty = Reservation & {
@@ -23,9 +24,11 @@ const statusLabel: Record<Reservation["status"], string> = {
 export function ReservationList({
   reservations,
   compact = false,
+  showCleaningAction = false,
 }: {
   reservations: ReservationWithProperty[];
   compact?: boolean;
+  showCleaningAction?: boolean;
 }) {
   return (
     <ul className="divide-y divide-border/60 rounded-2xl border border-border/50 bg-card shadow-sm">
@@ -61,6 +64,11 @@ export function ReservationList({
             <span className="hidden text-sm font-semibold sm:inline">
               {formatBRL(r.amount)}
             </span>
+          ) : null}
+
+          {showCleaningAction &&
+          (r.status === "confirmed" || r.status === "in_stay") ? (
+            <ScheduleCleaningButton reservationId={r.id} />
           ) : null}
 
           <ArrowRight className="size-3.5 shrink-0 text-foreground/30" />

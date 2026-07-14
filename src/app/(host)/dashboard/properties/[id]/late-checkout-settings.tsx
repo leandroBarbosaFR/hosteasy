@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Clock, Check } from "lucide-react";
+import { Clock, Check } from "@phosphor-icons/react/ssr";
 import {
   Field,
   FormMessage,
@@ -23,7 +23,7 @@ export function LateCheckoutSettings({ property }: { property: Property }) {
           <Clock className="size-5" />
         </div>
         <div>
-          <h2 className="font-display text-lg font-medium tracking-tight">
+          <h2 className="font-display text-lg font-bold tracking-tight">
             Vender late check-out
           </h2>
           <p className="mt-1 text-sm text-foreground/65">

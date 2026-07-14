@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Inbox } from "lucide-react";
+import { Tray as Inbox } from "@phosphor-icons/react/ssr";
 
 export function EmptyState({
   icon,
@@ -17,7 +17,7 @@ export function EmptyState({
       <div className="grid size-12 place-items-center rounded-full bg-muted text-foreground/60">
         {icon ?? <Inbox className="size-5" />}
       </div>
-      <h3 className="mt-4 font-display text-lg font-medium tracking-tight">
+      <h3 className="mt-4 font-display text-lg font-bold tracking-tight">
         {title}
       </h3>
       {description ? (

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { createPixPayment, mercadoPagoEnabled } from "@/lib/mercadopago";
 
 const extraSchema = z.object({
   id: z.string().uuid().optional(),
@@ -146,12 +147,42 @@ export async function approveExtraOrder(orderId: string) {
     return { ok: false, error: "Sem permissão." };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
+  const { data: order, error } = await supabase
     .from("extra_orders")
     .update({ status: "pending_payment" })
     .eq("id", orderId)
-    .eq("host_id", hostId);
-  if (error) return { ok: false, error: error.message };
+    .eq("host_id", hostId)
+    .select("id, total, extras(title), reservations(guest_email)")
+    .single();
+  if (error || !order) return { ok: false, error: error?.message ?? "Erro" };
+
+  // With Mercado Pago configured, approving creates the PIX charge the
+  // tablet displays. Failures fall back to the manual PIX-key flow.
+  if (mercadoPagoEnabled() && Number(order.total) > 0) {
+    const extraRel = Array.isArray(order.extras) ? order.extras[0] : order.extras;
+    const resRel = Array.isArray(order.reservations)
+      ? order.reservations[0]
+      : order.reservations;
+    const payment = await createPixPayment({
+      amount: Number(order.total),
+      description: `Hosteasy · ${(extraRel as { title?: string } | null)?.title ?? "Extra"}`,
+      orderId: order.id,
+      payerEmail: (resRel as { guest_email?: string | null } | null)?.guest_email,
+    });
+    if (payment.ok) {
+      await supabase
+        .from("extra_orders")
+        .update({
+          payment_provider: "mercadopago",
+          payment_id: payment.payment.id,
+          payment_qr: payment.payment.qrCode,
+          payment_qr_base64: payment.payment.qrCodeBase64,
+          payment_expires_at: payment.payment.expiresAt,
+        })
+        .eq("id", order.id)
+        .eq("host_id", hostId);
+    }
+  }
 
   revalidatePath("/dashboard/extras");
   revalidatePath("/dashboard");
@@ -172,6 +203,23 @@ export async function markOrderPaid(orderId: string) {
   if (error) return { ok: false, error: error.message };
   revalidatePath("/dashboard/extras");
   revalidatePath("/dashboard");
+  return { ok: true };
+}
+
+export async function markOrderDelivered(orderId: string) {
+  const { hostId, profile } = await requireHostContext();
+  if (profile.role === "host_staff") {
+    return { ok: false, error: "Sem permissão." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("extra_orders")
+    .update({ status: "delivered" })
+    .eq("id", orderId)
+    .eq("host_id", hostId)
+    .eq("status", "paid");
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/dashboard/extras");
   return { ok: true };
 }
 

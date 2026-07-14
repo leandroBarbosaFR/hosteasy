@@ -21,7 +21,7 @@ export function LegalPage({
               <span className="size-1.5 rounded-full bg-primary" />
               {eyebrow}
             </span>
-            <h1 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight md:text-5xl">
+            <h1 className="mt-5 text-balance font-display text-4xl font-bold leading-[1.05] tracking-tight md:text-5xl">
               {title}
             </h1>
             <p className="mt-4 text-sm text-foreground/55">

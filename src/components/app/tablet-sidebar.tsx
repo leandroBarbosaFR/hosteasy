@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  Sparkles,
-  BookOpen,
-  Globe2,
-  MessageCircle,
-  Settings,
-} from "lucide-react";
+import { House as Home, Sparkle as Sparkles, BookOpen, Globe as Globe2, ChatCircle as MessageCircle, Gear as Settings } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 
 export function TabletSidebar({ tabletCode }: { tabletCode: string }) {

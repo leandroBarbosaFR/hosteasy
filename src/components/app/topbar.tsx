@@ -17,7 +17,7 @@ export function Topbar({
             {subtitle}
           </p>
         ) : null}
-        <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
+        <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
           {title}
         </h1>
       </div>

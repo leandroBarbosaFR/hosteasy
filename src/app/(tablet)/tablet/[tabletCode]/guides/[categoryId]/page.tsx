@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "@phosphor-icons/react/ssr";
 import { resolveTabletContext } from "@/lib/data/tablet";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
@@ -36,7 +36,7 @@ export default async function TabletGuideDetail({
       >
         <ArrowLeft className="size-3" /> Guia da casa
       </Link>
-      <h1 className="mt-2 font-display text-3xl font-medium tracking-tight md:text-4xl">
+      <h1 className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">
         {category.title}
       </h1>
       {category.subtitle ? (
@@ -49,7 +49,7 @@ export default async function TabletGuideDetail({
             key={it.id}
             className="rounded-3xl border border-white/50 bg-white/60 p-5 shadow-sm backdrop-blur-xl"
           >
-            <h3 className="font-display text-lg font-medium tracking-tight">
+            <h3 className="font-display text-lg font-bold tracking-tight">
               {it.title}
             </h3>
             {it.content ? (

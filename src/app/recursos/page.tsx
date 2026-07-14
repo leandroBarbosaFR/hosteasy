@@ -1,15 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Coins,
-  MapPinned,
-  Heart,
-  Headset,
-  BarChart3,
-  Palette,
-  Globe,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowRight, Coins, MapPinArea as MapPinned, Heart, Headset, ChartBar as BarChart3, Palette, Globe, ShieldCheck } from "@phosphor-icons/react/ssr";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
 import { FinalCta } from "@/components/landing/final-cta";
 
@@ -106,7 +96,7 @@ function Hero() {
           <span className="size-1.5 rounded-full bg-primary" />
           Recursos
         </span>
-        <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
+        <h1 className="mt-5 text-balance font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl">
           Um tablet que faz{" "}
           <span className="text-primary">o trabalho pesado</span>
         </h1>
@@ -134,7 +124,7 @@ function DeepDives() {
               <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
                 {f.eyebrow}
               </p>
-              <h2 className="mt-3 text-balance font-display text-3xl font-medium leading-[1.1] tracking-tight md:text-4xl">
+              <h2 className="mt-3 text-balance font-display text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl">
                 {f.title}
               </h2>
               <p className="mt-4 text-pretty text-base leading-relaxed text-foreground/70">
@@ -155,7 +145,7 @@ function DeepDives() {
             <div className="flex aspect-[5/4] items-center justify-center rounded-3xl border border-border/60 bg-card">
               <f.icon
                 className="size-20 text-[#1a1a1a]"
-                strokeWidth={1.25}
+                weight="thin"
               />
             </div>
           </div>
@@ -173,7 +163,7 @@ function SupportGrid() {
           <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
             E também
           </p>
-          <h2 className="mt-2 font-display text-3xl font-medium tracking-tight md:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">
             Tudo no preço da assinatura
           </h2>
         </div>
@@ -183,8 +173,8 @@ function SupportGrid() {
               key={f.title}
               className="rounded-2xl border border-border/60 bg-card p-6"
             >
-              <f.icon className="size-5 text-[#1a1a1a]" strokeWidth={1.75} />
-              <h3 className="mt-3 font-display text-lg font-medium tracking-tight">
+              <f.icon className="size-5 text-[#1a1a1a]" weight="light" />
+              <h3 className="mt-3 font-display text-lg font-bold tracking-tight">
                 {f.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-foreground/70">

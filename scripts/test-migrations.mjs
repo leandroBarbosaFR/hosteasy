@@ -1,4 +1,4 @@
-// Spin up an in-process Postgres (pglite WASM) and apply 0001 + 0002 + 0003.
+// Spin up an in-process Postgres (pglite WASM) and apply every migration.
 // No Docker, no external services. Proves the migration SQL parses and runs
 // against a real Postgres engine.
 
@@ -64,6 +64,9 @@ const migrations = [
   ["0001_schema.sql", "supabase/migrations/0001_schema.sql"],
   ["0002_rls.sql", "supabase/migrations/0002_rls.sql"],
   ["0003_roi_engine.sql", "supabase/migrations/0003_roi_engine.sql"],
+  ["0004_staff_tasks.sql", "supabase/migrations/0004_staff_tasks.sql"],
+  ["0005_ops_suite.sql", "supabase/migrations/0005_ops_suite.sql"],
+  ["0006_delivery_payments.sql", "supabase/migrations/0006_delivery_payments.sql"],
 ];
 
 console.log("\n== Applying migrations ==");
@@ -160,7 +163,10 @@ const enums = await db.query(`
     join pg_enum e on e.enumtypid = t.oid
    where t.typname in (
      'user_role','tablet_status','reservation_status','reservation_source',
-     'reservation_source_type','extra_category','extra_order_status','message_sender'
+     'reservation_source_type','extra_category','extra_order_status','message_sender',
+     'staff_task_status','staff_task_category','staff_task_priority',
+     'worker_specialty','inventory_category','inventory_movement_reason',
+     'notification_type'
    )
    order by t.typname, e.enumsortorder
 `);
@@ -180,11 +186,44 @@ const indexes = await db.query(`
        'ux_reservations_source_uid_property',
        'ux_reservation_sources_url',
        'idx_reservation_sources_property',
-       'idx_review_requests_host'
+       'idx_review_requests_host',
+       'idx_staff_messages_pair',
+       'idx_inventory_items_host',
+       'idx_inventory_movements_item',
+       'idx_notifications_user'
      )
    order by indexname
 `);
 console.log("\nKey indexes present:", indexes.rows.map((r) => r.indexname).join(", "));
 
-console.log("\n== All three migrations applied cleanly against a real Postgres engine. ==");
+// 0005 sanity: the inventory-movement trigger keeps items in sync and clamps
+// at zero.
+console.log("\n== inventory movement trigger ==");
+await db.exec(`
+  insert into hosts (id, name) values ('99999999-9999-9999-9999-999999999999', 'Test Host');
+  insert into inventory_items (id, host_id, name, current_qty, min_qty)
+  values ('88888888-8888-8888-8888-888888888888', '99999999-9999-9999-9999-999999999999', 'Papel', 10, 2);
+  insert into inventory_movements (item_id, host_id, delta, reason)
+  values ('88888888-8888-8888-8888-888888888888', '99999999-9999-9999-9999-999999999999', -4, 'consumption');
+  insert into inventory_movements (item_id, host_id, delta, reason)
+  values ('88888888-8888-8888-8888-888888888888', '99999999-9999-9999-9999-999999999999', -100, 'adjustment');
+`);
+const inv = await db.query(`
+  select current_qty from inventory_items
+   where id = '88888888-8888-8888-8888-888888888888'
+`);
+const qty = Number(inv.rows[0].current_qty);
+if (qty !== 0) {
+  console.error(`ERR inventory trigger: expected clamped qty 0, got ${qty}`);
+  process.exit(1);
+}
+const moves = await db.query(`
+  select delta, qty_after from inventory_movements
+   where item_id = '88888888-8888-8888-8888-888888888888'
+   order by created_at
+`);
+console.log("movements:", moves.rows.map((r) => `${r.delta}→${r.qty_after}`).join(", "));
+console.log("OK  trigger keeps current_qty in sync and clamps at 0");
+
+console.log("\n== All migrations applied cleanly against a real Postgres engine. ==");
 await db.close();

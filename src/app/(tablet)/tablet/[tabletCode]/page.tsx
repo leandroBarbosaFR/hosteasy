@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, ChevronRight, Sparkles, BookOpen, Globe2, MessageCircle } from "lucide-react";
+import { CalendarDots as CalendarDays, CaretRight as ChevronRight, Sparkle as Sparkles, BookOpen, Globe as Globe2, ChatCircle as MessageCircle } from "@phosphor-icons/react/ssr";
 import { resolveTabletContext } from "@/lib/data/tablet";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { LateCheckoutCard } from "@/components/app/late-checkout-card";
@@ -39,7 +39,7 @@ export default async function TabletHomePage({
         <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
           Olá, bem-vindo
         </p>
-        <h1 className="font-display text-3xl font-medium tracking-tight md:text-4xl">
+        <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
           {ctx.reservation
             ? ctx.reservation.guest_name.split(" ")[0]
             : ctx.property?.name ?? ctx.host.name}
@@ -60,7 +60,7 @@ export default async function TabletHomePage({
           <div className="mt-2 flex items-center gap-3">
             <CalendarDays className="size-5 text-primary" />
             <div>
-              <p className="font-display text-lg font-medium tracking-tight">
+              <p className="font-display text-lg font-bold tracking-tight">
                 {new Date(ctx.reservation.check_in).toLocaleDateString("pt-BR", { day: "2-digit", month: "long" })}
                 {" – "}
                 {new Date(ctx.reservation.check_out).toLocaleDateString("pt-BR", { day: "2-digit", month: "long" })}
@@ -112,7 +112,7 @@ export default async function TabletHomePage({
 
       <section className="mt-6">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-lg font-medium tracking-tight">
+          <h2 className="font-display text-lg font-bold tracking-tight">
             Guia rápido
           </h2>
           <Link

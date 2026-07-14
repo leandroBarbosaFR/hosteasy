@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, ArrowRight } from "lucide-react";
+import { Plus, ArrowRight } from "@phosphor-icons/react/ssr";
 import { Topbar } from "@/components/app/topbar";
 import { EmptyState } from "@/components/app/empty-state";
 import { createSupabaseServerClient } from "@/lib/supabase/server";

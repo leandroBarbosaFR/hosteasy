@@ -1,4 +1,4 @@
-import { TrendingUp, Coffee, Clock, Car, Sparkles, Clock4, Star, AlertTriangle } from "lucide-react";
+import { TrendUp as TrendingUp, Coffee, Clock, Car, Sparkle as Sparkles, Clock as Clock4, Star, Warning as AlertTriangle } from "@phosphor-icons/react/ssr";
 import { formatBRL } from "@/lib/format";
 
 const CATEGORY_LABELS: Record<string, { label: string; Icon: typeof Coffee }> = {
@@ -43,7 +43,7 @@ export function ROIPanel({
           <p className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
             <TrendingUp className="size-3" /> Hosteasy ROI · este mês
           </p>
-          <h2 className="mt-3 font-display text-3xl font-medium tracking-tight md:text-4xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
             {formatBRL(snapshot.totalRevenue)}{" "}
             <span className="text-base font-medium text-foreground/55">gerados em extras</span>
           </h2>
@@ -58,7 +58,7 @@ export function ROIPanel({
           <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
             ROI estimado
           </p>
-          <p className="font-display text-2xl font-medium tracking-tight text-emerald-700">
+          <p className="font-display text-2xl font-bold tracking-tight text-emerald-700">
             {roiText}
           </p>
           <p className="mt-0.5 text-[10px] text-foreground/55">
@@ -144,7 +144,7 @@ function Metric({
           {label}
         </p>
       </div>
-      <p className="mt-2 font-display text-xl font-medium tracking-tight">{value}</p>
+      <p className="mt-2 font-display text-xl font-bold tracking-tight">{value}</p>
       {hint ? <p className="mt-1 text-[11px] text-foreground/55">{hint}</p> : null}
     </div>
   );

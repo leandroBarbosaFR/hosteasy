@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Plus, RefreshCw, Trash2, CheckCircle2, AlertTriangle, ExternalLink } from "lucide-react";
+import { Plus, ArrowsClockwise as RefreshCw, Trash as Trash2, CheckCircle as CheckCircle2, Warning as AlertTriangle, ArrowSquareOut as ExternalLink } from "@phosphor-icons/react/ssr";
 import {
   Field,
   FormMessage,
@@ -36,7 +36,7 @@ export function ReservationSourcesSection({
     <section className="rounded-3xl border border-border/50 bg-card p-6 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="font-display text-lg font-medium tracking-tight">
+          <h2 className="font-display text-lg font-bold tracking-tight">
             Importar reservas automaticamente
           </h2>
           <p className="mt-1 text-sm text-foreground/65">

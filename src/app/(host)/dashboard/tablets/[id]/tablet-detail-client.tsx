@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { QRCodeSVG } from "qrcode.react";
-import { Copy, Check, RefreshCw, Trash2, Wifi, WifiOff } from "lucide-react";
+import { Copy, Check, ArrowsClockwise as RefreshCw, Trash as Trash2, WifiHigh as Wifi, WifiSlash as WifiOff } from "@phosphor-icons/react/ssr";
 import type { Property, Tablet } from "@/types/db";
 import { effectiveTabletStatus, formatRelative } from "@/lib/format";
 import { useNow } from "@/lib/use-now";
@@ -53,7 +53,7 @@ export function TabletDetailClient({
     <div className="grid gap-4 lg:grid-cols-3">
       {/* Install card -------------------------------------------------- */}
       <section className="rounded-3xl border border-border/50 bg-card p-6 shadow-sm lg:col-span-2">
-        <h2 className="font-display text-lg font-medium tracking-tight">
+        <h2 className="font-display text-lg font-bold tracking-tight">
           Instalar no tablet físico
         </h2>
         <p className="mt-1 text-sm text-foreground/65">
@@ -100,7 +100,7 @@ export function TabletDetailClient({
 
       {/* Status card --------------------------------------------------- */}
       <section className="rounded-3xl border border-border/50 bg-card p-6 shadow-sm">
-        <h2 className="font-display text-lg font-medium tracking-tight">
+        <h2 className="font-display text-lg font-bold tracking-tight">
           Status
         </h2>
         <dl className="mt-3 space-y-2 text-sm">
@@ -141,7 +141,7 @@ export function TabletDetailClient({
 
       {/* Settings form ------------------------------------------------- */}
       <section className="rounded-3xl border border-border/50 bg-card p-6 shadow-sm lg:col-span-2">
-        <h2 className="font-display text-lg font-medium tracking-tight">
+        <h2 className="font-display text-lg font-bold tracking-tight">
           Configuração
         </h2>
         <form
@@ -196,7 +196,7 @@ export function TabletDetailClient({
 
       {/* Danger zone --------------------------------------------------- */}
       <section className="rounded-3xl border border-destructive/30 bg-card p-6 shadow-sm">
-        <h2 className="font-display text-lg font-medium tracking-tight">
+        <h2 className="font-display text-lg font-bold tracking-tight">
           Zona de risco
         </h2>
         <p className="mt-1 text-xs text-foreground/65">

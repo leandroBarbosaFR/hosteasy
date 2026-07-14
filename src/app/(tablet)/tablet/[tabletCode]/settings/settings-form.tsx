@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Check } from "lucide-react";
+import { Check } from "@phosphor-icons/react/ssr";
 import { updateTabletSettings } from "../actions";
 import { Field, FormMessage } from "@/components/app/auth-shell";
 import type { TabletSettings } from "@/types/db";

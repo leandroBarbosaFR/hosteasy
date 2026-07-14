@@ -1,17 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import {
-  Coffee,
-  Clock,
-  Car,
-  ShoppingBasket,
-  Sparkles,
-  Plus,
-  Check,
-  GiftIcon,
-  Apple,
-} from "lucide-react";
+import { Coffee, Clock, Car, Basket as ShoppingBasket, Sparkle as Sparkles, Plus, Check, Gift as GiftIcon, AppleLogo as Apple } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 import { formatBRL } from "@/lib/format";
 import type { Extra, ExtraCategory } from "@/types/db";
@@ -83,7 +73,7 @@ export function ExtraCard({
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg font-medium tracking-tight">
+        <h3 className="font-display text-lg font-bold tracking-tight">
           {extra.title}
         </h3>
         {extra.description ? (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition, useRef } from "react";
-import { Plus, X, Upload, Check, AlertTriangle } from "lucide-react";
+import { Plus, X, UploadSimple as Upload, Check, Warning as AlertTriangle } from "@phosphor-icons/react/ssr";
 import { ExtraCard } from "@/components/app/extra-card";
 import { EmptyState } from "@/components/app/empty-state";
 import { StatCard } from "@/components/app/stat-card";
@@ -14,11 +14,19 @@ import {
 import { formatBRL } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import {
+  orderStatusMeta,
+  isOpenOrder,
+  isPaidOrder,
+  isAwaitingPayment,
+  canCancelOrder,
+} from "@/lib/orders";
+import {
   saveExtra,
   deleteExtra,
   uploadExtraImage,
   approveExtraOrder,
   markOrderPaid,
+  markOrderDelivered,
   cancelOrder,
 } from "./actions";
 import type { Extra, ExtraCategory } from "@/types/db";
@@ -58,12 +66,8 @@ export function ExtrasClient({
 }) {
   const [editing, setEditing] = useState<Extra | "new" | null>(null);
 
-  const pendingCount = orders.filter(
-    (o) => o.status === "pending" || o.status === "pending_payment" || o.status === "approved",
-  ).length;
-  const paidCount = orders.filter(
-    (o) => o.status === "paid" || o.status === "delivered",
-  ).length;
+  const pendingCount = orders.filter((o) => isOpenOrder(o.status)).length;
+  const paidCount = orders.filter((o) => isPaidOrder(o.status)).length;
 
   return (
     <div className="space-y-6">
@@ -171,7 +175,7 @@ function OrderRow({ order, canManage }: { order: Order; canManage: boolean }) {
                 pending={pending}
               />
             ) : null}
-            {order.status === "approved" || order.status === "pending_payment" ? (
+            {isAwaitingPayment(order.status) ? (
               <ActionButton
                 label="Marcar pago"
                 onClick={() =>
@@ -184,9 +188,20 @@ function OrderRow({ order, canManage }: { order: Order; canManage: boolean }) {
                 primary
               />
             ) : null}
-            {order.status !== "paid" &&
-            order.status !== "delivered" &&
-            order.status !== "cancelled" ? (
+            {order.status === "paid" ? (
+              <ActionButton
+                label="Entregue"
+                onClick={() =>
+                  start(async () => {
+                    const r = await markOrderDelivered(order.id);
+                    if (!r.ok) setErr(r.error ?? "Erro");
+                  })
+                }
+                pending={pending}
+                primary
+              />
+            ) : null}
+            {canCancelOrder(order.status) ? (
               <ActionButton
                 label="Cancelar"
                 onClick={() =>
@@ -242,15 +257,7 @@ function ActionButton({
 }
 
 function StatusPill({ status }: { status: string }) {
-  const meta: Record<string, { label: string; cls: string }> = {
-    pending:         { label: "Pendente",        cls: "bg-amber-500/15 text-amber-700" },
-    approved:        { label: "Aprovado",        cls: "bg-blue-500/15 text-blue-700" },
-    pending_payment: { label: "Aguard. pagamento", cls: "bg-orange-500/15 text-orange-700" },
-    paid:            { label: "Pago",            cls: "bg-emerald-500/15 text-emerald-700" },
-    delivered:       { label: "Entregue",        cls: "bg-emerald-500/15 text-emerald-700" },
-    cancelled:       { label: "Cancelado",       cls: "bg-foreground/10 text-foreground/60" },
-  };
-  const m = meta[status] ?? { label: status, cls: "bg-foreground/10 text-foreground/60" };
+  const m = orderStatusMeta(status);
   return (
     <span
       className={cn(
@@ -298,7 +305,7 @@ function ExtraEditor({
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/30 p-4 backdrop-blur-sm md:items-center">
       <div className="w-full max-w-lg overflow-hidden rounded-3xl border border-border/60 bg-card shadow-xl">
         <div className="flex items-start justify-between p-6 pb-3">
-          <h2 className="font-display text-xl font-medium tracking-tight">
+          <h2 className="font-display text-xl font-bold tracking-tight">
             {extra ? "Editar extra" : "Novo extra"}
           </h2>
           <button

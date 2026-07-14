@@ -51,7 +51,7 @@ function QuickLink({ href, title, desc }: { href: string; title: string; desc: s
       href={href}
       className="rounded-2xl border border-border/50 bg-card p-5 shadow-sm transition-shadow hover:shadow-md"
     >
-      <h3 className="font-display text-base font-medium tracking-tight">{title}</h3>
+      <h3 className="font-display text-base font-bold tracking-tight">{title}</h3>
       <p className="mt-1 text-sm text-foreground/65">{desc}</p>
     </Link>
   );

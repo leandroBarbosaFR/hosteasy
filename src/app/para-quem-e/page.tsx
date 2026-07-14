@@ -1,4 +1,4 @@
-import { User, Building2, Hotel, Briefcase } from "lucide-react";
+import { User, Buildings as Building2, Bed as Hotel, Briefcase } from "@phosphor-icons/react/ssr";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
 import { FinalCta } from "@/components/landing/final-cta";
 
@@ -72,7 +72,7 @@ function Hero() {
           <span className="size-1.5 rounded-full bg-primary" />
           Para quem é
         </span>
-        <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
+        <h1 className="mt-5 text-balance font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl">
           Funciona pra{" "}
           <span className="text-primary">1 imóvel</span> ou{" "}
           <span className="text-primary">100</span>
@@ -111,9 +111,9 @@ function Profiles() {
             <div className="mt-3 flex items-center gap-3">
               <p.icon
                 className="size-7 text-[#1a1a1a]"
-                strokeWidth={1.5}
+                weight="light"
               />
-              <h2 className="font-display text-2xl font-medium tracking-tight">
+              <h2 className="font-display text-2xl font-bold tracking-tight">
                 {p.title}
               </h2>
             </div>

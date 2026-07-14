@@ -2,24 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  CalendarDays,
-  MessageSquare,
-  LineChart,
-  Building2,
-  Tablet as TabletIcon,
-  Sparkles,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { SquaresFour as LayoutDashboard, Bell, CalendarDots as CalendarDays, CalendarBlank as CalendarRange, Chat as MessageSquare, Chats as MessagesSquare, Package, ChartLine as LineChart, Buildings as Building2, DeviceTablet as TabletIcon, Sparkle as Sparkles, Gear as Settings, SignOut as LogOut } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 import { logoutAction } from "@/app/(auth)/actions";
 
 const NAV = [
   { href: "/dashboard", label: "Visão geral", Icon: LayoutDashboard },
+  { href: "/dashboard/notifications", label: "Notificações", Icon: Bell, badge: "notifications" as const },
   { href: "/dashboard/reservations", label: "Reservas", Icon: CalendarDays },
+  { href: "/dashboard/calendar", label: "Calendário", Icon: CalendarRange },
   { href: "/dashboard/messages", label: "Mensagens", Icon: MessageSquare },
+  { href: "/dashboard/team", label: "Equipe", Icon: MessagesSquare, badge: "teamChat" as const },
+  { href: "/dashboard/inventory", label: "Estoque", Icon: Package },
   { href: "/dashboard/revenue", label: "Receita", Icon: LineChart },
   { href: "/dashboard/properties", label: "Imóveis", Icon: Building2 },
   { href: "/dashboard/tablets", label: "Tablets", Icon: TabletIcon },
@@ -29,24 +23,27 @@ const NAV = [
 
 export function HostSidebar({
   user,
+  counts,
 }: {
   user: { name: string; subtitle: string; initial: string };
+  counts?: { notifications: number; teamChat: number };
 }) {
   const pathname = usePathname();
   return (
     <aside className="sticky top-0 hidden h-svh w-60 flex-col gap-1 bg-[#1c2247] p-4 text-white/90 md:flex">
       <div className="mb-4 flex items-center justify-between px-2 py-1">
-        <span className="font-display text-base font-semibold">hosteasy</span>
+        <span className="font-display text-base font-bold">hosteasy</span>
         <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-white/70">
           Anfitrião
         </span>
       </div>
 
-      {NAV.map(({ href, label, Icon }) => {
+      {NAV.map(({ href, label, Icon, badge }) => {
         const active =
           href === "/dashboard"
             ? pathname === href
             : pathname.startsWith(href);
+        const badgeCount = badge ? (counts?.[badge] ?? 0) : 0;
         return (
           <Link
             key={href}
@@ -66,7 +63,12 @@ export function HostSidebar({
               />
             ) : null}
             <Icon className="size-4" />
-            {label}
+            <span className="flex-1">{label}</span>
+            {badgeCount > 0 ? (
+              <span className="grid min-w-[18px] place-items-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
+                {badgeCount}
+              </span>
+            ) : null}
           </Link>
         );
       })}

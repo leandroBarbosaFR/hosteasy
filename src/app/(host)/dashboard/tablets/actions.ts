@@ -1,12 +1,19 @@
 "use server";
 
+import { randomBytes } from "node:crypto";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { requireHostContext } from "@/lib/data/host";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+// The tablet code is the only thing gating the guest URL, so it has to be
+// unguessable: 48 bits of CSPRNG entropy (12 hex chars).
+function generateTabletCode() {
+  return `TAB-${randomBytes(6).toString("hex").toUpperCase()}`;
+}
+
 const createSchema = z.object({
-  tablet_code: z.string().min(2).max(40),
+  tablet_code: z.string().max(40).optional().or(z.literal("")),
   property_id: z.string().uuid().optional().or(z.literal("")),
 });
 
@@ -16,17 +23,21 @@ export async function createTablet(formData: FormData) {
     return { ok: false, error: "Sem permissão." };
   }
   const parsed = createSchema.safeParse({
-    tablet_code: formData.get("tablet_code"),
+    tablet_code: formData.get("tablet_code") ?? "",
     property_id: formData.get("property_id") ?? "",
   });
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Inválido" };
   }
+  const code = parsed.data.tablet_code?.trim() || generateTabletCode();
+  if (code.length < 2) {
+    return { ok: false, error: "Código muito curto." };
+  }
   const supabase = await createSupabaseServerClient();
   const { data: existing } = await supabase
     .from("tablets")
     .select("id, host_id")
-    .eq("tablet_code", parsed.data.tablet_code)
+    .eq("tablet_code", code)
     .maybeSingle();
   if (existing) {
     return { ok: false, error: "Já existe um tablet com esse código." };
@@ -34,11 +45,11 @@ export async function createTablet(formData: FormData) {
   const { error } = await supabase.from("tablets").insert({
     host_id: hostId,
     property_id: parsed.data.property_id || null,
-    tablet_code: parsed.data.tablet_code,
+    tablet_code: code,
   });
   if (error) return { ok: false, error: error.message };
   revalidatePath("/dashboard/tablets");
-  return { ok: true };
+  return { ok: true, code };
 }
 
 const updateSchema = z.object({
@@ -84,9 +95,7 @@ export async function rotateTabletCode(id: string) {
     return { ok: false, error: "Sem permissão." };
   }
   const supabase = await createSupabaseServerClient();
-  // Generate a new code: TAB-<6 hex chars>
-  const hex = Math.random().toString(16).slice(2, 8).toUpperCase().padEnd(6, "0");
-  const newCode = `TAB-${hex}`;
+  const newCode = generateTabletCode();
   const { error } = await supabase
     .from("tablets")
     .update({ tablet_code: newCode })

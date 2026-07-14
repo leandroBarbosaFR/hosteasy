@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  ShieldCheck,
-  Users,
-  Building2,
-  Tablet as TabletIcon,
-  FlaskConical,
-  LogOut,
-} from "lucide-react";
+import { ShieldCheck, Users, Buildings as Building2, DeviceTablet as TabletIcon, Flask as FlaskConical, SignOut as LogOut } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 import { logoutAction } from "@/app/(auth)/actions";
 
@@ -26,7 +19,7 @@ export function AdminSidebar({ user }: { user: { name: string; initial: string }
   return (
     <aside className="sticky top-0 hidden h-svh w-60 flex-col gap-1 bg-[#0c1430] p-4 text-white/90 md:flex">
       <div className="mb-4 flex items-center justify-between px-2 py-1">
-        <span className="font-display text-base font-semibold">hosteasy</span>
+        <span className="font-display text-base font-bold">hosteasy</span>
         <span className="rounded-full bg-primary/30 px-2 py-0.5 text-[10px] font-medium text-white">
           Admin
         </span>

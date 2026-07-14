@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Plug, CreditCard, Sparkles, Mail } from "lucide-react";
+import { ArrowRight, Plug, CreditCard, Sparkle as Sparkles, Envelope as Mail } from "@phosphor-icons/react/ssr";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
 import { FinalCta } from "@/components/landing/final-cta";
 
@@ -68,7 +68,7 @@ function Hero() {
           <span className="size-1.5 rounded-full bg-primary" />
           Integrações
         </span>
-        <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
+        <h1 className="mt-5 text-balance font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl">
           Conectamos com{" "}
           <span className="text-primary">o que você já usa</span>
         </h1>
@@ -91,7 +91,7 @@ function FeaturedPms() {
             <p className="text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
               PMS & OTA
             </p>
-            <h2 className="mt-2 font-display text-3xl font-medium tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">
               Os que importam pro Brasil
             </h2>
           </div>
@@ -179,7 +179,7 @@ function CategoryCard({
         <span className="grid size-10 place-items-center rounded-xl bg-background text-[#1a1a1a] ring-1 ring-border/60">
           {icon}
         </span>
-        <h3 className="font-display text-xl font-medium tracking-tight">
+        <h3 className="font-display text-xl font-bold tracking-tight">
           {title}
         </h3>
       </div>
@@ -210,7 +210,7 @@ function SuggestIntegration() {
               <Mail className="size-5" />
             </span>
             <div>
-              <h3 className="font-display text-2xl font-medium tracking-tight">
+              <h3 className="font-display text-2xl font-bold tracking-tight">
                 Não viu o seu PMS aqui?
               </h3>
               <p className="mt-2 max-w-md text-sm leading-relaxed text-foreground/70">

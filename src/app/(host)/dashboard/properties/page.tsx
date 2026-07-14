@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus } from "@phosphor-icons/react/ssr";
 import { Topbar } from "@/components/app/topbar";
 import { PropertyCard } from "@/components/app/property-card";
 import { EmptyState } from "@/components/app/empty-state";

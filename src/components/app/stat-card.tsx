@@ -1,4 +1,4 @@
-import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight } from "@phosphor-icons/react/ssr";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +23,7 @@ export function StatCard({
         </p>
         {icon ?? null}
       </div>
-      <p className="mt-3 font-display text-2xl font-medium tracking-tight">
+      <p className="mt-3 font-display text-2xl font-bold tracking-tight">
         {value}
       </p>
       {delta ? (

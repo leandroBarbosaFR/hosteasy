@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Star, ExternalLink } from "lucide-react";
+import { Star, ArrowSquareOut as ExternalLink } from "@phosphor-icons/react/ssr";
 import { submitReview } from "@/app/(tablet)/tablet/[tabletCode]/actions";
 
 type Step = "rate" | "five-star" | "low-star" | "done";
@@ -52,8 +52,8 @@ export function ReviewPromptCard({
       {step === "rate" ? (
         <>
           <div className="flex items-center gap-2">
-            <Star className="size-5 fill-primary text-primary" />
-            <h3 className="font-display text-xl font-medium tracking-tight">
+            <Star className="size-5 fill-primary text-primary" weight="fill" />
+            <h3 className="font-display text-xl font-bold tracking-tight">
               Como foi sua estadia?
             </h3>
           </div>
@@ -71,9 +71,10 @@ export function ReviewPromptCard({
                 aria-label={`${n} estrelas`}
               >
                 <Star
+                  weight={rating && n <= rating ? "fill" : "regular"}
                   className={
                     rating && n <= rating
-                      ? "size-6 fill-primary text-primary"
+                      ? "size-6 text-primary"
                       : "size-6 text-foreground/40"
                   }
                 />
@@ -85,7 +86,7 @@ export function ReviewPromptCard({
 
       {step === "five-star" ? (
         <>
-          <h3 className="font-display text-xl font-medium tracking-tight">
+          <h3 className="font-display text-xl font-bold tracking-tight">
             Que ótimo! 🌟
           </h3>
           <p className="mt-1 text-sm text-foreground/65">
@@ -123,7 +124,7 @@ export function ReviewPromptCard({
 
       {step === "low-star" ? (
         <>
-          <h3 className="font-display text-xl font-medium tracking-tight">
+          <h3 className="font-display text-xl font-bold tracking-tight">
             Desculpe pela experiência
           </h3>
           <p className="mt-1 text-sm text-foreground/65">

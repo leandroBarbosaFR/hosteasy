@@ -1,28 +1,37 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
+// Corpo de texto: Geist regular.
 const geistSans = Geist({
   variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
-// Display headlines reuse Geist for a clean, modern look.
-// (Was Gloock — kept the --font-display variable so existing
-//  font-display class usages keep working unchanged.)
-const geistDisplay = Geist({
+// Títulos: Satoshi (Fontshare / ITF Free Font License), auto-hospedada.
+// Pesos estáticos desenhados — o arquivo "variable" da Fontshare vem com
+// default 900, então os cortes reais dão controle previsível.
+const satoshi = localFont({
+  src: [
+    { path: "./fonts/Satoshi-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/Satoshi-Medium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/Satoshi-Bold.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "HostEasy — Tablets inteligentes para aluguéis de temporada",
+  title: "hosteasy — Tablets inteligentes para aluguéis de temporada",
   description:
     "O tablet sempre ligado que transforma cada estadia em mais receita: check-in digital, guia da casa, comunicação com hóspedes e vendas extras. Feito para anfitriões em Florianópolis.",
 };
@@ -35,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} ${geistDisplay.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${satoshi.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}

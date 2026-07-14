@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { ArrowRight, Coins, Heart, Headset, MapPinned } from "lucide-react";
+import { ArrowRight, Coins, Heart, Headset, MapPinArea as MapPinned } from "@phosphor-icons/react/ssr";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
 import { Wordmark } from "@/components/landing/logo";
 
 export const metadata = {
-  title: "Brand guideline · HostEasy",
+  title: "Brand guideline · hosteasy",
 };
 
 const SWATCHES = [
@@ -95,7 +95,7 @@ function Section({
             <p className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-foreground/55">
               {eyebrow}
             </p>
-            <h2 className="mt-2 font-display text-3xl font-medium leading-[1.1] tracking-tight md:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl">
               {title}
             </h2>
             {desc && (
@@ -119,7 +119,7 @@ function Hero() {
           <span className="size-1.5 rounded-full bg-primary" />
           Brand guideline · v1
         </span>
-        <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-7xl">
+        <h1 className="mt-5 text-balance font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
           Como{" "}
           <span className="text-primary">o hosteasy</span> se mostra
           ao mundo.
@@ -184,7 +184,7 @@ function Colors() {
               }`}
               style={{ backgroundColor: s.hex }}
             >
-              <p className="font-display text-xl font-medium leading-none">
+              <p className="font-display text-xl font-bold leading-none">
                 {s.name}
               </p>
             </div>
@@ -211,27 +211,27 @@ function Typography() {
     <Section
       number="03"
       eyebrow="Tipografia"
-      title="Fraunces + Geist"
-      desc="Fraunces (serif variável, eixos SOFT e opsz) carrega a personalidade — usar em headlines com itálico para ênfase. Geist Sans cuida do corpo e da UI."
+      title="Satoshi + Geist"
+      desc="Satoshi (Fontshare, auto-hospedada) carrega os títulos, sempre em bold. Geist Sans cuida do corpo e da UI, em regular."
     >
       <div className="space-y-8">
         <div className="rounded-3xl border border-border/60 bg-card p-8">
           <div className="flex items-baseline justify-between">
-            <p className="font-display text-2xl text-primary">
-              Fraunces
+            <p className="font-display text-2xl font-bold text-primary">
+              Satoshi
             </p>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
-              Display · Serif
+              Display · Títulos
             </p>
           </div>
-          <p className="mt-6 font-display text-6xl font-medium leading-[1.02] tracking-tight md:text-7xl">
+          <p className="mt-6 font-display text-6xl font-bold leading-[1.02] tracking-tight md:text-7xl">
             Mais receita por estadia.
           </p>
-          <p className="mt-3 font-display text-4xl font-medium text-primary">
+          <p className="mt-3 font-display text-4xl font-bold text-primary">
             Menos pergunta de hóspede.
           </p>
           <div className="mt-6 grid grid-cols-3 gap-3 text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
-            <span>weight 500</span>
+            <span>weight 700 · bold</span>
             <span>tracking-tight</span>
             <span>leading 1.02</span>
           </div>
@@ -280,7 +280,7 @@ function Components() {
         </Demo>
 
         <Demo label="Headline com ênfase">
-          <p className="text-balance font-display text-3xl font-medium leading-[1.05] tracking-tight">
+          <p className="text-balance font-display text-3xl font-bold leading-[1.05] tracking-tight">
             O tablet que cuida{" "}
             <span className="text-primary">da sua estadia</span> por
             você.
@@ -314,8 +314,8 @@ function Components() {
               aria-hidden
               className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
             />
-            <Coins className="size-6 text-[#1a1a1a]" strokeWidth={1.75} />
-            <h3 className="mt-4 font-display text-xl font-medium tracking-tight">
+            <Coins className="size-6 text-[#1a1a1a]" weight="light" />
+            <h3 className="mt-4 font-display text-xl font-bold tracking-tight">
               Extras que se vendem sozinhos
             </h3>
             <p className="mt-2 text-sm text-foreground/70">
@@ -328,9 +328,9 @@ function Components() {
           <div className="grid max-w-md grid-cols-2 gap-3">
             <div className="rounded-2xl border border-border/60 bg-card p-4">
               <div className="grid size-10 place-items-center rounded-xl bg-background ring-1 ring-border/60">
-                <Heart className="size-5 text-[#1a1a1a]" strokeWidth={1.75} />
+                <Heart className="size-5 text-[#1a1a1a]" weight="light" />
               </div>
-              <p className="mt-3 font-display text-base font-medium tracking-tight">
+              <p className="mt-3 font-display text-base font-bold tracking-tight">
                 Reservas diretas
               </p>
               <p className="mt-1 text-[11px] text-foreground/60">
@@ -341,10 +341,10 @@ function Components() {
               <div className="grid size-10 place-items-center rounded-xl bg-background ring-1 ring-border/60">
                 <Headset
                   className="size-5 text-[#1a1a1a]"
-                  strokeWidth={1.75}
+                  weight="light"
                 />
               </div>
-              <p className="mt-3 font-display text-base font-medium tracking-tight">
+              <p className="mt-3 font-display text-base font-bold tracking-tight">
                 Atendimento
               </p>
               <p className="mt-1 text-[11px] text-foreground/60">
@@ -406,8 +406,8 @@ function Iconography() {
     <Section
       number="06"
       eyebrow="Ícones"
-      title="Lucide, naked"
-      desc="lucide-react com strokeWidth 1.75, sem fundo nem borda. Cor padrão #1a1a1a em fundo claro, white em fundo escuro. Nunca rosa (rosa é só pra acento)."
+      title="Phosphor, naked"
+      desc="@phosphor-icons/react com weight regular (light para traços mais finos), sem fundo nem borda. Cor padrão #1a1a1a em fundo claro, white em fundo escuro. Nunca rosa (rosa é só pra acento)."
     >
       <div className="rounded-3xl border border-border/60 bg-card p-10">
         <div className="grid grid-cols-4 gap-6">
@@ -415,7 +415,7 @@ function Iconography() {
             <div key={i} className="flex flex-col items-center gap-2">
               <Icon
                 className="size-8 text-[#1a1a1a]"
-                strokeWidth={1.75}
+                weight="light"
               />
               <p className="text-[10px] font-semibold uppercase tracking-wider text-foreground/55">
                 {Icon.displayName ?? `Icon ${i}`}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight } from "@phosphor-icons/react/ssr";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ export function Pricing() {
   return (
     <section
       id="precos"
-      className="relative overflow-hidden bg-background py-14 md:py-[60px]"
+      className="relative overflow-hidden bg-card/40 py-14 md:py-[60px]"
     >
       <div className="relative mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-2xl text-center">
@@ -28,7 +28,7 @@ export function Pricing() {
             <span className="size-1.5 rounded-full bg-primary" />
             Preços
           </span>
-          <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
+          <h2 className="mt-5 text-balance font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl">
             Um plano.{" "}
             <span className="text-primary">Tablet incluído.</span> Sem
             pegadinha.
@@ -47,7 +47,7 @@ export function Pricing() {
                   Mensal
                 </p>
                 <div className="mt-3 flex items-baseline gap-1">
-                  <span className="font-display text-5xl font-medium tracking-tight">
+                  <span className="font-display text-5xl font-bold tracking-tight">
                     R$ 99
                   </span>
                   <span className="text-sm text-foreground/55">
@@ -66,7 +66,7 @@ export function Pricing() {
                   Anual
                 </p>
                 <div className="mt-3 flex items-baseline gap-1">
-                  <span className="font-display text-5xl font-medium tracking-tight">
+                  <span className="font-display text-5xl font-bold tracking-tight">
                     R$ 999
                   </span>
                   <span className="text-sm text-foreground/55">
@@ -90,7 +90,7 @@ export function Pricing() {
                     className="flex items-start gap-2 text-sm leading-relaxed"
                   >
                     <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
-                      <Check className="size-3" strokeWidth={3} />
+                      <Check className="size-3" weight="bold" />
                     </span>
                     <span className="text-foreground/80">{item}</span>
                   </li>

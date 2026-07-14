@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Star, Check } from "lucide-react";
+import { Star, Check } from "@phosphor-icons/react/ssr";
 import {
   Field,
   FormMessage,
@@ -22,7 +22,7 @@ export function ReviewLinksSettings({ property }: { property: Property }) {
           <Star className="size-5" />
         </div>
         <div>
-          <h2 className="font-display text-lg font-medium tracking-tight">
+          <h2 className="font-display text-lg font-bold tracking-tight">
             Aumentar suas avaliações
           </h2>
           <p className="mt-1 text-sm text-foreground/65">

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, MessageCircle, Mail, MapPin, Calendar } from "lucide-react";
+import { ArrowRight, ChatCircle as MessageCircle, Envelope as Mail, MapPin, Calendar } from "@phosphor-icons/react/ssr";
 import { SiteHeader, SiteFooter } from "@/components/landing/site-shell";
+import { CONTACT_EMAIL, whatsappLink } from "@/lib/site";
 
 const CHANNELS = [
   {
@@ -8,7 +9,7 @@ const CHANNELS = [
     title: "WhatsApp",
     desc: "Resposta em ~10 min, em horário comercial.",
     cta: "Abrir conversa",
-    href: "https://wa.me/5548991958826?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20o%20Hosteasy!",
+    href: whatsappLink("Olá, quero saber mais sobre o Hosteasy!"),
     primary: true,
   },
   {
@@ -22,8 +23,8 @@ const CHANNELS = [
     icon: Mail,
     title: "E-mail",
     desc: "Pra coisas mais longas ou propostas.",
-    cta: "leobarbosacontact@gmail.com",
-    href: "mailto:leobarbosacontact@gmail.com",
+    cta: CONTACT_EMAIL,
+    href: `mailto:${CONTACT_EMAIL}`,
   },
 ];
 
@@ -48,7 +49,7 @@ function Hero() {
           <span className="size-1.5 rounded-full bg-primary" />
           Contato
         </span>
-        <h1 className="mt-5 text-balance font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
+        <h1 className="mt-5 text-balance font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl">
           Fala com a gente —{" "}
           <span className="text-primary">sem pitch</span>
         </h1>
@@ -77,9 +78,9 @@ function Channels() {
             >
               <c.icon
                 className="size-6 text-[#1a1a1a]"
-                strokeWidth={1.75}
+                weight="light"
               />
-              <h3 className="mt-4 font-display text-xl font-medium tracking-tight">
+              <h3 className="mt-4 font-display text-xl font-bold tracking-tight">
                 {c.title}
               </h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-foreground/70">

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { LegalPage } from "@/components/landing/legal-page";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata = {
-  title: "Termos de Uso · HostEasy",
+  title: "Termos de Uso · hosteasy",
 };
 
 export default function TermosPage() {
@@ -13,15 +14,15 @@ export default function TermosPage() {
       lastUpdated="12 de maio de 2026"
     >
       <p>
-        Estes Termos regulam o uso da plataforma <strong>HostEasy</strong>,
-        operada por <strong>HostEasy Tecnologia Ltda.</strong>, com sede em
+        Estes Termos regulam o uso da plataforma <strong>hosteasy</strong>,
+        operada por <strong>hosteasy Tecnologia Ltda.</strong>, com sede em
         Florianópolis/SC. Ao contratar o serviço você concorda com tudo o
         que está aqui — leia com calma.
       </p>
 
-      <h2>1. O que é o HostEasy</h2>
+      <h2>1. O que é o hosteasy</h2>
       <p>
-        O HostEasy é um serviço de assinatura que combina (i) tablet físico
+        O hosteasy é um serviço de assinatura que combina (i) tablet físico
         de 8 polegadas instalado no imóvel, (ii) software de guia digital,
         comunicação e vendas extras e (iii) painel web para o anfitrião
         gerenciar conteúdo, reservas e receita.
@@ -61,7 +62,7 @@ export default function TermosPage() {
       <p>
         O tablet é cedido em comodato pelo período da assinatura. Quebra,
         roubo ou furto sem dolo do anfitrião são cobertos pela garantia
-        HostEasy — enviamos uma substituição em até 48h úteis. Uso indevido
+        hosteasy — enviamos uma substituição em até 48h úteis. Uso indevido
         (imersão, modificação de firmware, etc.) pode gerar cobrança do
         valor de reposição.
       </p>
@@ -73,7 +74,7 @@ export default function TermosPage() {
       <h2>5. Conteúdo do anfitrião</h2>
       <p>
         Você é responsável pelo conteúdo que publica no tablet (textos,
-        fotos, vídeos, preços de extras, parceiros indicados). O HostEasy
+        fotos, vídeos, preços de extras, parceiros indicados). O hosteasy
         não modera previamente esse conteúdo, mas pode removê-lo
         sumariamente caso identifique violação à lei, a direitos de
         terceiros ou aos termos das integrações de PMS conectadas.
@@ -88,7 +89,7 @@ export default function TermosPage() {
       <ul>
         <li>
           <strong>Extras do próprio anfitrião:</strong> 90% para o
-          anfitrião, 10% retidos pelo HostEasy.
+          anfitrião, 10% retidos pelo hosteasy.
         </li>
         <li>
           <strong>Parceiros locais (iFood, escolas de surf, etc.):</strong>{" "}
@@ -114,10 +115,10 @@ export default function TermosPage() {
 
       <h2>9. Limitação de responsabilidade</h2>
       <p>
-        O HostEasy não se responsabiliza por danos indiretos, lucros
+        O hosteasy não se responsabiliza por danos indiretos, lucros
         cessantes ou prejuízos decorrentes de mau uso pelo hóspede, falhas
         de internet do imóvel ou indisponibilidade de PMS de terceiros. A
-        responsabilidade máxima do HostEasy em qualquer hipótese fica
+        responsabilidade máxima do hosteasy em qualquer hipótese fica
         limitada ao valor pago pelo anfitrião nos últimos 12 meses.
       </p>
 
@@ -139,9 +140,7 @@ export default function TermosPage() {
       <h2>12. Contato</h2>
       <p>
         Dúvidas?{" "}
-        <Link href="mailto:leobarbosacontact@gmail.com">
-          leobarbosacontact@gmail.com
-        </Link>{" "}
+        <Link href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link>{" "}
         ou pelo{" "}
         <Link href="/contato">WhatsApp da página de contato</Link>.
       </p>

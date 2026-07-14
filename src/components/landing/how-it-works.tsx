@@ -34,7 +34,7 @@ export function HowItWorks() {
             <span className="size-1.5 rounded-full bg-primary" />
             Como funciona
           </span>
-          <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
+          <h2 className="mt-5 text-balance font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl">
             Do <span className="text-primary">&ldquo;sim&rdquo;</span> ao
             tablet rodando em menos de uma semana
           </h2>
@@ -54,10 +54,10 @@ export function HowItWorks() {
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
               />
-              <div className="relative mb-5 inline-flex size-9 items-center justify-center rounded-full bg-white/70 font-display text-sm font-medium text-primary ring-1 ring-white/60">
+              <div className="relative mb-5 inline-flex size-9 items-center justify-center rounded-full bg-white/70 font-display text-sm font-bold text-primary ring-1 ring-white/60">
                 {s.n}
               </div>
-              <h3 className="relative font-display text-lg font-medium tracking-tight">
+              <h3 className="relative font-display text-lg font-bold tracking-tight">
                 {s.title}
               </h3>
               <p className="relative mt-2 text-sm leading-relaxed text-foreground/70">

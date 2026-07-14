@@ -1,4 +1,4 @@
-import { Coins, MapPinned, Heart, Headset } from "lucide-react";
+import { Coins, MapPinArea as MapPinned, Heart, Headset } from "@phosphor-icons/react/ssr";
 import { cn } from "@/lib/utils";
 
 const features = [
@@ -39,7 +39,7 @@ export function Features() {
             <span className="size-1.5 rounded-full bg-primary" />
             Recursos
           </span>
-          <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
+          <h2 className="mt-5 text-balance font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl">
             Quatro receitas que você está{" "}
             <span className="text-primary">perdendo todo mês</span>
           </h2>
@@ -111,7 +111,7 @@ function BentoCard({
             "shrink-0 text-[#1f1916]",
             isHero ? "size-7" : "size-6"
           )}
-          strokeWidth={1.75}
+          weight="light"
         />
         <span
           className={cn(
@@ -126,7 +126,7 @@ function BentoCard({
       <div className={cn("mt-5", isWide && "md:mt-0 md:flex-1")}>
         <h3
           className={cn(
-            "font-display font-medium tracking-tight text-foreground",
+            "font-display font-bold tracking-tight text-foreground",
             isHero
               ? "text-2xl leading-tight md:text-3xl"
               : "text-xl leading-tight"

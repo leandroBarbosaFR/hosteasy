@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useState, useTransition } from "react";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react/ssr";
 import { createHostAsAdmin } from "../actions";
 import {
   Field,
@@ -24,7 +24,7 @@ export function NewHostDialog({ trigger }: { trigger: ReactNode }) {
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/30 p-4 backdrop-blur-sm md:items-center">
           <div className="w-full max-w-md rounded-3xl border border-border/60 bg-card p-6 shadow-xl">
             <div className="flex items-start justify-between">
-              <h2 className="font-display text-xl font-medium tracking-tight">
+              <h2 className="font-display text-xl font-bold tracking-tight">
                 Novo anfitrião
               </h2>
               <button

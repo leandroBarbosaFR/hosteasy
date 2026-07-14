@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus } from "@phosphor-icons/react/ssr";
 
 const items = [
   {
@@ -33,14 +33,14 @@ const items = [
 
 export function Faq() {
   return (
-    <section className="relative overflow-hidden bg-card/40 py-14 md:py-[60px]">
+    <section className="relative overflow-hidden bg-background py-14 md:py-[60px]">
       <div className="relative mx-auto max-w-3xl px-6">
         <div className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-white/60 px-3 py-1 text-xs font-medium text-foreground/70 backdrop-blur">
             <span className="size-1.5 rounded-full bg-primary" />
             Perguntas frequentes
           </span>
-          <h2 className="mt-5 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground md:text-5xl">
+          <h2 className="mt-5 text-balance font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-5xl">
             O que anfitriões em{" "}
             <span className="text-primary">Floripa</span> nos perguntam
           </h2>

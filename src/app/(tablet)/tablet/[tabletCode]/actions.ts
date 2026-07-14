@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { notifyHostAdmins } from "@/lib/notify";
 
 const heartbeatSchema = z.object({
   battery_percent: z.number().int().min(0).max(100).nullable().optional(),
@@ -172,6 +173,16 @@ export async function requestLateCheckout(
     body: `Hóspede solicitou late check-out (R$ ${price.toFixed(0)}).`,
   });
 
+  await notifyHostAdmins({
+    hostId: property.host_id,
+    type: "new_order",
+    title: "Pedido de late check-out",
+    body: `R$ ${price.toFixed(0)} · aprove em Extras.`,
+    entityType: "reservation",
+    entityId: ctx.reservation.id,
+    actionPath: "/dashboard/extras",
+  });
+
   revalidatePath(`/tablet/${tabletCode}`);
   return { ok: true };
 }
@@ -265,6 +276,16 @@ export async function orderExtra(
     tablet_id: ctx.tablet.id,
     sender_type: "system",
     body: `Pedido novo: ${extra.title} (x${quantity}).`,
+  });
+
+  await notifyHostAdmins({
+    hostId: extra.host_id,
+    type: "new_order",
+    title: `Pedido novo: ${extra.title} (x${quantity})`,
+    body: `Total R$ ${(Number(extra.price) * quantity).toFixed(0)} · aprove em Extras.`,
+    entityType: "reservation",
+    entityId: ctx.reservation.id,
+    actionPath: "/dashboard/extras",
   });
 
   revalidatePath(`/tablet/${tabletCode}/extras`);

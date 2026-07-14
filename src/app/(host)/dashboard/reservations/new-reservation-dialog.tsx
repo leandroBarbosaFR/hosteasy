@@ -8,7 +8,7 @@ import {
   inputClass,
   primaryButtonClass,
 } from "@/components/app/auth-shell";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react/ssr";
 
 type Property = { id: string; name: string; unit_code: string | null };
 
@@ -40,7 +40,7 @@ export function NewReservationDialog({
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/30 p-4 backdrop-blur-sm md:items-center">
           <div className="w-full max-w-md rounded-3xl border border-border/60 bg-card p-6 shadow-xl">
             <div className="flex items-start justify-between">
-              <h2 className="font-display text-xl font-medium tracking-tight">
+              <h2 className="font-display text-xl font-bold tracking-tight">
                 Nova reserva
               </h2>
               <button

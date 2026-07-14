@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { Maximize2 } from "lucide-react";
+import { ArrowsOut as Maximize2 } from "@phosphor-icons/react/ssr";
 
 // Returns true once mounted on the client AND we are not already running in
 // standalone/fullscreen display mode AND the gate hasn't already been
@@ -63,7 +63,7 @@ export function TabletKioskGate({ tabletCode }: { tabletCode: string }) {
         <Maximize2 className="size-7" />
       </div>
       <div className="px-8 text-center">
-        <p className="font-display text-3xl font-medium tracking-tight md:text-4xl">
+        <p className="font-display text-3xl font-bold tracking-tight md:text-4xl">
           Toque para começar
         </p>
         <p className="mt-2 text-sm text-foreground/65">

@@ -1,20 +1,36 @@
-import { Plus, Star } from "lucide-react";
+import { Plus, Star } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { Topbar } from "@/components/app/topbar";
 import { StatCard } from "@/components/app/stat-card";
 import { ReservationList } from "@/components/app/reservation-list";
 import { EmptyState } from "@/components/app/empty-state";
 import { ROIPanel } from "@/components/app/roi-panel";
+import { OnboardingChecklist } from "@/components/app/onboarding-checklist";
 import { getHostDashboardData } from "@/lib/data/host";
 import { getRoiSnapshot } from "@/lib/data/roi";
+import { getOnboardingSteps } from "@/lib/data/onboarding";
 import { formatBRL } from "@/lib/format";
 
 export const metadata = { title: "Visão geral · Hosteasy" };
 
 export default async function DashboardPage() {
-  const { monthRevenue, occupancy, activeReservations, upcoming, profile, revenueSeries, hostId } =
-    await getHostDashboardData();
-  const roi = await getRoiSnapshot(hostId);
+  const {
+    monthRevenue,
+    monthRevenueDeltaPct,
+    revenue30dDeltaPct,
+    avgRating,
+    ratingCount,
+    occupancy,
+    activeReservations,
+    upcoming,
+    profile,
+    revenueSeries,
+    hostId,
+  } = await getHostDashboardData();
+  const [roi, onboardingSteps] = await Promise.all([
+    getRoiSnapshot(hostId),
+    getOnboardingSteps(hostId),
+  ]);
 
   const total30d = revenueSeries.reduce(
     (a, r) => a + Number(r.amount ?? 0),
@@ -47,19 +63,41 @@ export default async function DashboardPage() {
       />
 
       <section className="px-6 pt-6 md:px-10">
+        <OnboardingChecklist steps={onboardingSteps} />
+      </section>
+
+      <section className="px-6 pt-6 md:px-10">
         <ROIPanel snapshot={roi} />
       </section>
 
       <section className="grid gap-3 px-6 pt-6 sm:grid-cols-2 md:px-10 lg:grid-cols-4">
-        <StatCard label="Receita do mês" value={formatBRL(monthRevenue)} trend="up" delta="+12%" />
-        <StatCard label="Ocupação"       value={`${occupancy.toFixed(0)}%`} trend="up" delta="+4%" />
-        <StatCard label="Reservas ativas" value={String(activeReservations)} trend="up" delta="+3" />
+        <StatCard
+          label="Receita do mês"
+          value={formatBRL(monthRevenue)}
+          trend={
+            monthRevenueDeltaPct == null
+              ? undefined
+              : monthRevenueDeltaPct >= 0
+                ? "up"
+                : "down"
+          }
+          delta={
+            monthRevenueDeltaPct == null
+              ? undefined
+              : `${monthRevenueDeltaPct >= 0 ? "+" : ""}${monthRevenueDeltaPct}% vs mês passado`
+          }
+        />
+        <StatCard label="Ocupação" value={`${occupancy.toFixed(0)}%`} />
+        <StatCard label="Reservas ativas" value={String(activeReservations)} />
         <StatCard
           label="Nota média"
-          value="4.9"
-          trend="up"
-          delta="↑"
-          icon={<Star className="size-4 fill-primary text-primary" />}
+          value={avgRating == null ? "—" : avgRating.toFixed(1)}
+          delta={
+            ratingCount > 0
+              ? `${ratingCount} ${ratingCount === 1 ? "avaliação" : "avaliações"}`
+              : undefined
+          }
+          icon={<Star className="size-4 fill-primary text-primary" weight="fill" />}
         />
       </section>
 
@@ -88,7 +126,18 @@ export default async function DashboardPage() {
           <div className="rounded-2xl border border-border/50 bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold">Receita · 30 dias</h2>
-              <span className="text-xs font-semibold text-emerald-600">+12%</span>
+              {revenue30dDeltaPct != null ? (
+                <span
+                  className={
+                    revenue30dDeltaPct >= 0
+                      ? "text-xs font-semibold text-emerald-600"
+                      : "text-xs font-semibold text-destructive"
+                  }
+                >
+                  {revenue30dDeltaPct >= 0 ? "+" : ""}
+                  {revenue30dDeltaPct}%
+                </span>
+              ) : null}
             </div>
             <Sparkline values={revenueSeries.map((r) => Number(r.amount ?? 0))} />
             <div className="mt-3 flex items-end justify-between">
